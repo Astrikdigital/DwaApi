@@ -105,7 +105,7 @@ namespace ConvergeAPI.Controllers
             }
 
         }
-        [HttpPost("GetInventory")]
+        [HttpGet("GetInventory")]
         public async Task<IActionResult> GetInventory()
         {
             try

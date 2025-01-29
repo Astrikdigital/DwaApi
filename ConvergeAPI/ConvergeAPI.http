@@ -1,0 +1,6 @@
+@ConvergeAPI_HostAddress = http://localhost:5255
+
+GET {{ConvergeAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

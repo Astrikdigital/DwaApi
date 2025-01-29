@@ -121,6 +121,19 @@ namespace DataAccessLayer
             return result;
         }
         
+       public async Task<dynamic> GetInventory()
+        {
+            try
+            {
+                using var con = _context.CreateConnection(); 
+                return (await con.QueryAsync("GetInventory",   commandType: CommandType.StoredProcedure)).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<dynamic> InsertUpdateInventory(Inventory inventory)
         {
             try

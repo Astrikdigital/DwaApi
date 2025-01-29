@@ -105,21 +105,21 @@ namespace ConvergeAPI.Controllers
             }
 
         }
+        [HttpPost("GetInventory")]
+        public async Task<IActionResult> GetInventory()
+        {
+            try
+            {
+                var result = await _formService.GetInventory();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
 
-        //[HttpGet("download-excel")]
-        //public async Task<IActionResult> DownloadExcel()
-        //{
-        //    try
-        //    {
-        //        var fileStream = await _formService.GetRegistrationDataAndGenerateExcelAsync();
-        //        return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "dwa-all-registration.xlsx");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Ok(ResponseHelper.GetFailureResponse());
-        //    }
-        //}
+            }
 
+        }
 
         [HttpGet("download-excel")]
         public async Task<IActionResult> DownloadExcel()
@@ -139,20 +139,7 @@ namespace ConvergeAPI.Controllers
                     await fileStream.CopyToAsync(fileStreamToSave);
                 }
                 var fileUrl = Url.Content($"~/downloads/{fileName}");
-                return Ok(ResponseHelper.GetSuccessResponse(fileUrl));
-                // Call the service to generate and save the Excel file
-                //var filePath = await _formService.GenerateAndSaveRegistrationExcelAsync();
-
-                //if (string.IsNullOrEmpty(filePath))
-                //{
-                //    return Ok(ResponseHelper.GetFailureResponse("Failed to generate Excel file"));
-                //}
-
-                //// Generate the URL for the saved file
-                //var fileUrl = Url.Content($"~/downloads/{Path.GetFileName(filePath)}");
-
-                //// Return the file URL
-                //return Ok(ResponseHelper.GetSuccessResponse(fileUrl));
+                return Ok(ResponseHelper.GetSuccessResponse(fileUrl)); 
             }
             catch (Exception ex)
             {

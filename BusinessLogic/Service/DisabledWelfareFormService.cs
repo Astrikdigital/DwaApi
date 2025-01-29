@@ -101,6 +101,20 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+        public async Task<dynamic> GetInventory()
+        {
+            try
+            {
+               
+                var res = await _disabledWelfareFormRepository.GetInventory();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<MemoryStream> GetRegistrationDataAndGenerateExcelAsync()
         {
             try

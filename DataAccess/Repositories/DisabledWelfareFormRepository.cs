@@ -2,6 +2,8 @@
 using Dapper;
 using DataAccess.DbContext;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
 using System.Data;
 using static System.Net.Mime.MediaTypeNames;
@@ -120,13 +122,107 @@ namespace DataAccessLayer
             }
             return result;
         }
-        
-       public async Task<dynamic> GetInventory()
+        public async Task<dynamic> InsertUpdateDonation(Donation donation)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    DonationTypeId = donation.DonationTypeId,
+                    DonationDetailTypeId = donation.DonationDetailTypeId,
+                    TransactionId = donation.TransactionId,
+                    Amount = donation.Amount,
+                    Date = donation.Date,
+                    Attachment = donation.Attachment,
+                    InventoryId = donation.InventoryId,
+                    Quantity = donation.Quantity
+                };
+                var Id = (await con.QueryAsync("InsertUpdateDonation", param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> InsertUpdateDonor(DonorModel donor)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id=donor.Id,
+                    Name=   donor.Name,
+                    Email= donor.Email,
+                    PhoneNumber= donor.PhoneNumber,
+                    PictureUrl= donor.PictureUrl
+                };
+                var Id =  (await con.QueryAsync("InsertUpdateDonor",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                Donation donation = new Donation(); 
+                donation.InventoryId = donor.InventoryId;
+                donation.DonationTypeId = donor.DonationTypeId;
+                donation.DonationStatusId = donor.DonationStatusId;
+                donation.DonationDetailTypeId = donor.DonationDetailTypeId;
+                donation.Date = donor.Date;
+                donation.Quantity = donor.Quantity;
+                donation.TransactionId = donor.TransactionId;
+                donation.Amount = donor.Amount;
+                donation.Attachment = donor.Attachment;
+                donation.DonorId = Id;       
+                InsertUpdateDonation(donation);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetInventory()
         {
             try
             {
                 using var con = _context.CreateConnection(); 
-                return (await con.QueryAsync("GetInventory",   commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                return (await con.QueryAsync("GetInventory",   commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        
+        public async Task<dynamic> DeleteTableRow(string TableName,int? Id)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    tableName = TableName,Id= Id
+                };
+                return (await con.QueryAsync("DeleteTableRow", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetDonor(string SearchString)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    SearchString = SearchString
+                };
+                return (await con.QueryAsync("GetDonor",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
             catch (Exception ex)
             {

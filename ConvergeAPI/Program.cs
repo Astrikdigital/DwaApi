@@ -1,7 +1,6 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Service;
-using BusinessObjectsLayer.Entities;
-using ConvergeAPI.Hubs;
+using BusinessObjectsLayer.Entities; 
 using DataAccess.DbContext;
 using DataAccessLayer;
 using DataAccessLayer.Interface;
@@ -110,8 +109,7 @@ app.UseCors("AllowAllOrigins");
 app.UseAuthentication();         
 app.UseAuthorization();          
 app.UseStaticFiles();            
-app.MapControllers();            
-app.MapHub<SignalRNotificationHub>("/signalRNotificationHub");
+app.MapControllers();             
 
 app.UseSwagger();
 app.UseSwaggerUI(); /*Local*/

@@ -120,7 +120,51 @@ namespace ConvergeAPI.Controllers
             }
 
         }
+        [HttpPost("InsertUpdateDonor")]
+        public async Task<IActionResult> InsertUpdateDonor([FromForm] DonorModel donor)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateDonor(donor);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
 
+            }
+
+        } 
+        [HttpGet("GetDonor")]
+        public async Task<IActionResult> GetDonor(string? SearchText)
+        {
+            try
+            {
+                var result = await _formService.GetDonor(SearchText);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("DeleteTableRow")]
+        public async Task<IActionResult> DeleteTableRow(string? tableName,int? Id)
+        {
+            try
+            {
+                var result = await _formService.DeleteTableRow(tableName, Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
         [HttpGet("download-excel")]
         public async Task<IActionResult> DownloadExcel()
         {

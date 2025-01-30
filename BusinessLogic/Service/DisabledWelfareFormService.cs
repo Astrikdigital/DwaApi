@@ -63,6 +63,7 @@ namespace BusinessLogicLayer.Service
                 return null;
             }
         }
+
         public async Task<dynamic> DeleteRegistration(int Id)
         {
             var res = await _disabledWelfareFormRepository.DeleteRegistration(Id);
@@ -214,5 +215,164 @@ namespace BusinessLogicLayer.Service
             memoryStream.Position = 0;
             return memoryStream;
         }
+
+
+        #region EmployeeService
+        public async Task<dynamic> GetEmployee(string serachText = null, int? stafTypeId = null, int PageSize = 20, int? PageNumber = 1)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetEmployee(serachText, stafTypeId, PageSize, PageNumber);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<dynamic> InsertUpdateEmployee(EmployeeForm employeeForm)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.InsertUpdateEmployee(employeeForm);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region OG_Service
+        public async Task<dynamic> InsertOGTable(OGTables ogTables)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.InsertOGTable(ogTables);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetDesignation()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetDesignation();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> Getdepartment()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.Getdepartment();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetGender()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetGender();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> GetShift()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetShift();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetStatus()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetStatus();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> GetCities()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetCities();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> GetReligion()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetReligion();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetMaritalStatus()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetMaritalStatus();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetContractType()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.ContractType();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
     }
 }

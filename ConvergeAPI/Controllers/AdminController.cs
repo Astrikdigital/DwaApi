@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Response;
 using BusinessLogicLayer.Service;
 using BusinessObjectsLayer.Entities;
+using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -146,6 +147,231 @@ namespace ConvergeAPI.Controllers
                 return Ok(ResponseHelper.GetFailureResponse());
             }
         }
+
+
+
+        #region Employee
+        [HttpGet("get-employee")]
+        public async Task<IActionResult> GetEmployee(string serachText = null, int? stafTypeId = null,int PageSize = 20, int? PageNumber = 1)
+        {
+            try
+            {
+                var result = await _formService.GetEmployee(serachText, stafTypeId, PageSize,PageNumber);
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+
+        [HttpPost("insert-update-employee")]
+        public async Task<IActionResult> InsertUpdateEmployee([FromForm] EmployeeForm employeeForm)
+
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateEmployee(employeeForm);
+                if (result.Id == 0)
+                {
+                    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                }
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
+        }
+        #endregion
+
+
+        #region OG_TABLES
+        [HttpPost("insert-og")]
+        public async Task<IActionResult> InsertOGTable(OGTables ogTables)
+
+        {
+            try
+            {
+                var result = await _formService.InsertOGTable(ogTables);
+                if (result.Id == 0)
+                {
+                    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                }
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpGet("get-designation")]
+        public async Task<IActionResult> GetDesignation()
+        {
+            try
+            {
+                var result = await _formService.GetDesignation();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+        [HttpGet("get-department")]
+        public async Task<IActionResult> GetDepartment()
+        {
+            try
+            {
+                var result = await _formService.Getdepartment();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+        [HttpGet("get-gender")]
+        public async Task<IActionResult> GetGender()
+        {
+            try
+            {
+                var result = await _formService.GetGender();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+        [HttpGet("get-shift")]
+        public async Task<IActionResult> GetShift()
+        {
+            try
+            {
+                var result = await _formService.GetShift();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+        [HttpGet("get-status")]
+        public async Task<IActionResult> GetStatus()
+        {
+            try
+            {
+                var result = await _formService.GetStatus();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+        [HttpGet("get-cities")]
+        public async Task<IActionResult> GetCities()
+        {
+            try
+            {
+                var result = await _formService.GetCities();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+        [HttpGet("get-religion")]
+        public async Task<IActionResult> GetReligion()
+        {
+            try
+            {
+                var result = await _formService.GetReligion();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+        [HttpGet("get-marital-status")]
+        public async Task<IActionResult> GetMaritalStatus()
+        {
+            try
+            {
+                var result = await _formService.GetMaritalStatus();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+        [HttpGet("get-contract-type")]
+        public async Task<IActionResult> GetContractType()
+        {
+            try
+            {
+                var result = await _formService.GetContractType();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+        #endregion
+
 
     }
 }

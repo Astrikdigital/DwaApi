@@ -17,7 +17,7 @@ namespace DataAccessLayer
         {
             _context = context;
         }
-        public async Task<dynamic> InsertUpdateRegistration(DisabledWelFareForm disabledWelfareForm)
+        public async Task<dynamic> InsertUpdateBeneficiary(DisabledWelFareForm disabledWelfareForm)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace DataAccessLayer
                     };
                     using (IDbConnection con = _context.CreateConnection())
                     {
-                        var resp = (await con.QueryAsync<dynamic>("InsertUpdateRegistration", param: param, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                        var resp = (await con.QueryAsync<dynamic>("InsertUpdateBeneficiary", param: param, commandType: CommandType.StoredProcedure)).FirstOrDefault();
                         disabledWelfareForm.Id = resp.Id;
                         return disabledWelfareForm;
                     }
@@ -67,7 +67,7 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetRegistration(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1, string gender = null)
+        public async Task<dynamic> GetBeneficiary(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1, string gender = null)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace DataAccessLayer
                 };
                 using (IDbConnection con = _context.CreateConnection())
                 {
-                    var res = (await con.QueryAsync<dynamic>("GetRegistration", param: param, commandType: CommandType.StoredProcedure)).ToList();
+                    var res = (await con.QueryAsync<dynamic>("GetBeneficiary", param: param, commandType: CommandType.StoredProcedure)).ToList();
                     return res;
                 }
             }
@@ -90,7 +90,7 @@ namespace DataAccessLayer
                 return null;
             }
         }
-        public async Task<dynamic> DeleteRegistration(int Id)
+        public async Task<dynamic> DeleteBeneficiary(int Id)
         {
             var result = new
             {
@@ -107,7 +107,7 @@ namespace DataAccessLayer
                     {
                         Id = Id
                     };
-                    await connection.ExecuteAsync("DeleteRegistration", parameters, commandType: CommandType.StoredProcedure);
+                    await connection.ExecuteAsync("DeleteBeneficiary", parameters, commandType: CommandType.StoredProcedure);
                     result = new
                     {
                         IsSuccess = true,
@@ -187,6 +187,25 @@ namespace DataAccessLayer
             }
 
         }
+        
+        public async Task<dynamic> UpdateDonationStatus(int? Id, int? DonationStatusId)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id,
+                    DonationStatusId = DonationStatusId
+                };
+                return (await con.QueryAsync("UpdateDonationStatus",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<dynamic> GetInventory()
         {
             try
@@ -236,12 +255,16 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetDonation()
+        public async Task<dynamic> GetDonation(int? Id)
         {
             try
             {
-                using var con = _context.CreateConnection(); 
-                return (await con.QueryAsync("GetDonation",   commandType: CommandType.StoredProcedure)).ToList();
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id
+                };
+                return (await con.QueryAsync("GetDonation",param: parameters,   commandType: CommandType.StoredProcedure)).ToList();
             }
             catch (Exception ex)
             {
@@ -274,12 +297,12 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetRegistrationDDL()
+        public async Task<dynamic> GetBeneficiaryDDL()
         {
             try
             {
                 using var con = _context.CreateConnection();
-                using var multi = await con.QueryMultipleAsync("GetRegistrationDDL", commandType: CommandType.StoredProcedure);
+                using var multi = await con.QueryMultipleAsync("GetBeneficiaryDDL", commandType: CommandType.StoredProcedure);
                 var Project = (await multi.ReadAsync<dynamic>()).ToList();
                 var Disability = (await multi.ReadAsync<dynamic>()).ToList();
                 var CauseOfDisability = (await multi.ReadAsync<dynamic>()).ToList();

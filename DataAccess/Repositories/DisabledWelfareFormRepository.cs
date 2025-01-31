@@ -419,7 +419,7 @@ namespace DataAccessLayer
                         PersonalEmail = employeeForm.PersonalEmail,
                         PermanentAddress = employeeForm.PermanentAddress,
                         ResidentialAddress = employeeForm.ResidentialAddress,
-                        Attachment = employeeForm.Atta,
+                        Attachment = employeeForm.Attachment,
                         ProfilePicture = employeeForm.ProfilePicture,
 
                     };

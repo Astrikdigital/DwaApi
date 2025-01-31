@@ -396,7 +396,7 @@ namespace DataAccessLayer
                         PersonalEmail = employeeForm.PersonalEmail,
                         PermanentAddress = employeeForm.PermanentAddress,
                         ResidentialAddress = employeeForm.ResidentialAddress,
-                        Attachment = employeeForm.attachmentUrl,
+                        Attachment = employeeForm.Atta,
                         ProfilePicture = employeeForm.ProfilePicture,
 
                     };
@@ -585,6 +585,19 @@ namespace DataAccessLayer
             }
         }
 
+        public async Task<dynamic> GetAssingment()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                return (await con.QueryAsync("GetAssignment", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+        }
+
         public async Task<dynamic> InsertOGTable(OGTables ogTable)
         {
             try
@@ -618,5 +631,106 @@ namespace DataAccessLayer
 
 
         #endregion
+
+
+        #region Volunteer
+
+
+        public async Task<dynamic> InsertVolunteer(VolunteerForm volunteerForm)
+        {
+            try
+            {
+               
+                    var param = new
+                    {
+                        Id = volunteerForm.Id,
+                        AvailabilityDayIds = volunteerForm.AvailabilityDayIds,
+                        VolunteerRoleId = volunteerForm.VolunteerRoleId,
+                        DepartmentId = volunteerForm.DepartmentId,
+                        ProjectAssigmentId = volunteerForm.ProjectAssigmentId,
+                        GenderId = volunteerForm.GenderId,
+                        MaritalStatusId = volunteerForm.MaritalStatusId,
+                        ReligionId = volunteerForm.ReligionId,
+                        CityId = volunteerForm.CityId,
+                        StatusId = volunteerForm.StatusId,
+                        Name = volunteerForm.Name,
+                        Email = volunteerForm.Email,
+                        Phone = volunteerForm.Phone,
+                        DateOfJoining = volunteerForm.DateOfJoining,
+                        DateOfExit = volunteerForm.DateOfExit,
+                        Location = volunteerForm.Location,
+                        EmergencyContactNo = volunteerForm.EmergencyContactNo,
+                        EmergencyContactRelation = volunteerForm.EmergencyContactRelation,
+                        Cnic = volunteerForm.Cnic,
+                        AvailabilityTime = volunteerForm.AvailabilityTime,
+                        DateOfBirth = volunteerForm.DateOfBirth,
+                        FatherName = volunteerForm.FatherName,
+                        PersonalPhoneNumber = volunteerForm.PersonalPhoneNumber,
+                        PersonalEmail = volunteerForm.PersonalEmail,
+                        PermanentAddress = volunteerForm.PermanentAddress,
+                        ResidentialAddress = volunteerForm.ResidentialAddress,
+                        Attachment = volunteerForm.Attachment,
+                        ProfilePicture = volunteerForm.ProfilePicture
+
+                    };
+                    using (IDbConnection con = _context.CreateConnection())
+                    {
+                        return (await con.QueryAsync<dynamic>("InsertVolunteer", param: param, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+
+
+
+        }
+
+        public async Task<dynamic> GetAllVolunteers(string? serachText = null,int PageSize = 20, int? PageNumber = 1)
+        {
+            try
+            {
+                var param = new
+                {
+                    searchText = serachText,
+                    PageSize = PageSize,
+                    PageNumber = PageNumber
+                };
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var res = (await con.QueryAsync<dynamic>("GetAllVolunteers", param: param, commandType: CommandType.StoredProcedure)).ToList();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<dynamic> GetvolunteerById(int? Id = null)
+        {
+            try
+            {
+                var param = new
+                {
+                    Id = Id
+                };
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var res = (await con.QueryAsync<dynamic>("GetVolunteerById", param: param, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
     }
+
+
 }

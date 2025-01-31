@@ -502,7 +502,7 @@ namespace ConvergeAPI.Controllers
                 return Ok(ResponseHelper.GetFailureResponse());
             }
         }
-          [HttpGet("get-employment-type")]
+        [HttpGet("get-employment-type")]
         public async Task<IActionResult> GetEmploymentType()
         {
             try
@@ -520,9 +520,79 @@ namespace ConvergeAPI.Controllers
             }
         }
 
+        [HttpGet("get-assignment")]
+        public async Task<IActionResult> GetAssignment()
+        {
+            try
+            {
+                var result = await _formService.GetAssignment();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
         #endregion
 
+        #region Volunteer
+        [HttpGet("get-volunteer")]
+        public async Task<IActionResult> GetAllVolunteers(string serachText = null, int PageSize = 20, int? PageNumber = 1)
+        {
+            try
+            {
+                var result = await _formService.GetAllVolunteers(serachText, PageSize, PageNumber);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
 
+
+        [HttpPost("insert-volunteer")]
+        public async Task<IActionResult> InsertVolunteer([FromForm] VolunteerForm volunteerForm)
+
+        {
+            try
+            {
+                var result = await _formService.InsertVolunteer(volunteerForm);
+                if (result.Id == 0)
+                {
+                    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                }
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpGet("get-volunteer-by-id")]
+        public async Task<IActionResult> GetvolunteerById(int? Id = null)
+        {
+            try
+            {
+                var result = await _formService.GetvolunteerById(Id);
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+        #endregion
     }
 }
 

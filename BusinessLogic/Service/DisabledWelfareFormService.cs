@@ -346,10 +346,10 @@ namespace BusinessLogicLayer.Service
                     employeeForm.ProfilePicture = ProfilePictureUrl;
                 }
 
-                if (employeeForm.Attachment != null && employeeForm.Attachment.Length > 0)
+                if (employeeForm.attachmentUrl != null && employeeForm.attachmentUrl.Length > 0)
                 {
-                    (attachmentName, attachmentUrl) = await Helper.AttachFileAsync(employeeForm.Attachment, _environment, 1);
-                    employeeForm.attachmentUrl = attachmentUrl;
+                    (attachmentName, attachmentUrl) = await Helper.AttachFileAsync(employeeForm.attachmentUrl, _environment, 1);
+                    employeeForm.Attachment = attachmentUrl;
                 }
                 var res = await _disabledWelfareFormRepository.InsertUpdateEmployee(employeeForm);
                 return res;
@@ -418,6 +418,19 @@ namespace BusinessLogicLayer.Service
             try
             {
                 var res = await _disabledWelfareFormRepository.GetShift();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetAssignment()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetAssingment();
                 return res;
             }
             catch (Exception ex)
@@ -530,6 +543,70 @@ namespace BusinessLogicLayer.Service
             try
             {
                 var res = await _disabledWelfareFormRepository.GetDonationType();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+
+        #region Volunteer
+        public async Task<dynamic> GetAllVolunteers(string serachText = null, int PageSize = 20, int? PageNumber = 1)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetAllVolunteers(serachText, PageSize, PageNumber);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<dynamic> InsertVolunteer(VolunteerForm volunteerForm)
+        {
+            try
+            {
+                string ProfilePictureName = null;
+                string ProfilePictureUrl = null;
+                string attachmentName = null;
+                string attachmentUrl = null;
+
+
+
+                if (volunteerForm.Profile != null && volunteerForm.Profile.Length > 0)
+                {
+                    (ProfilePictureName, ProfilePictureUrl) = await Helper.AttachFileAsync(volunteerForm.Profile, _environment, 1);
+                    volunteerForm.ProfilePicture = ProfilePictureUrl;
+                }
+
+                if (volunteerForm.attachmentUrl != null && volunteerForm.attachmentUrl.Length > 0)
+                {
+                    (attachmentName, attachmentUrl) = await Helper.AttachFileAsync(volunteerForm.attachmentUrl, _environment, 1);
+                    volunteerForm.Attachment = attachmentUrl;
+                }
+                var res = await _disabledWelfareFormRepository.InsertVolunteer(volunteerForm);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+
+
+        }
+
+        public async Task<dynamic> GetvolunteerById(int? Id = null)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetvolunteerById(Id);
                 return res;
             }
             catch (Exception ex)

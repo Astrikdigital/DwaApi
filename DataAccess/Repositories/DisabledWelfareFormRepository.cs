@@ -129,8 +129,11 @@ namespace DataAccessLayer
                 using var con = _context.CreateConnection();
                 var parameters = new
                 {
+                    Id = donation.Id,
                     DonationTypeId = donation.DonationTypeId,
                     DonationDetailTypeId = donation.DonationDetailTypeId,
+                    DonorId = donation.DonorId,
+                    DonationStatusId = donation.DonationStatusId,
                     TransactionId = donation.TransactionId,
                     Amount = donation.Amount,
                     Date = donation.Date,
@@ -161,7 +164,8 @@ namespace DataAccessLayer
                     PhoneNumber= donor.PhoneNumber,
                     PictureUrl= donor.PictureUrl
                 };
-                var Id =  (await con.QueryAsync("InsertUpdateDonor",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                var Id =  (await con.QueryAsync<int>("InsertUpdateDonor",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                if (donor.Id==null) { 
                 Donation donation = new Donation(); 
                 donation.InventoryId = donor.InventoryId;
                 donation.DonationTypeId = donor.DonationTypeId;
@@ -174,6 +178,7 @@ namespace DataAccessLayer
                 donation.Attachment = donor.Attachment;
                 donation.DonorId = Id;       
                 InsertUpdateDonation(donation);
+                }
                 return true;
             }
             catch (Exception ex)
@@ -213,16 +218,30 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetDonor(string SearchString)
+        public async Task<dynamic> GetDonor(int? Id,string SearchText)
         {
             try
             {
                 using var con = _context.CreateConnection();
                 var parameters = new
                 {
-                    SearchString = SearchString
+                    Id=Id,
+                    SearchText = SearchText
                 };
                 return (await con.QueryAsync("GetDonor",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetDonation()
+        {
+            try
+            {
+                using var con = _context.CreateConnection(); 
+                return (await con.QueryAsync("GetDonation",   commandType: CommandType.StoredProcedure)).ToList();
             }
             catch (Exception ex)
             {
@@ -480,6 +499,44 @@ namespace DataAccessLayer
             }
         }
 
+        
+        public async Task<dynamic> GetDonationType()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                return (await con.QueryAsync("API_Select_DonationType", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+        }
+        
+        public async Task<dynamic> GetDonationDetailType()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                return (await con.QueryAsync("API_Select_DonationDetailType", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+        }
+        public async Task<dynamic> GetDonationStatus()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                return (await con.QueryAsync("API_Select_DonationStatus", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+        }
         public async Task<dynamic> ContractType()
         {
             try

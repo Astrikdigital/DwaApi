@@ -42,7 +42,7 @@ namespace BusinessObjectsLayer.Entities
         public IFormFile? AttachmentDocument { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
-        public int? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? PictureUrl { get; set; }
         public int? DonationTypeId { get; set; }
         public int? DonationStatusId { get; set; }

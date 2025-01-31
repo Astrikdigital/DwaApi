@@ -143,12 +143,41 @@ namespace BusinessLogicLayer.Service
             }
 
         }
-        public async Task<dynamic> GetDonor(string SearchString)
+        
+        public async Task<dynamic> InsertUpdateDonation(Donation donation)
         {
             try
             {
 
-                var res = await _disabledWelfareFormRepository.GetDonor(SearchString);
+                var res = await _disabledWelfareFormRepository.InsertUpdateDonation(donation);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetDonor(int? Id, string SearchText)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetDonor(Id, SearchText);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetDonation()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetDonation();
                 return res;
             }
             catch (Exception ex)
@@ -415,12 +444,49 @@ namespace BusinessLogicLayer.Service
                 return null;
             }
         }
-
+        
         public async Task<dynamic> GetContractType()
         {
             try
             {
                 var res = await _disabledWelfareFormRepository.ContractType();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        
+        public async Task<dynamic> GetDonationDetailType()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetDonationDetailType();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> GetDonationStatus()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetDonationStatus();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> GetDonationType()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetDonationType();
                 return res;
             }
             catch (Exception ex)

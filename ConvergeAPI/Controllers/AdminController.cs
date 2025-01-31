@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Response;
 using BusinessLogicLayer.Service;
 using BusinessObjectsLayer.Entities;
+using Converge.Shared.Helper;
 using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
 using Microsoft.AspNetCore.Hosting;
@@ -137,11 +138,41 @@ namespace ConvergeAPI.Controllers
 
         } 
         [HttpGet("GetDonor")]
-        public async Task<IActionResult> GetDonor(string? SearchText)
+        public async Task<IActionResult> GetDonor(int? Id, string? SearchText)
         {
             try
             {
-                var result = await _formService.GetDonor(SearchText);
+                var result = await _formService.GetDonor(Id,SearchText);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+          [HttpPost("InsertUpdateDonation")]
+        public async Task<IActionResult> InsertUpdateDonation(Donation donation)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateDonation(donation);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("GetDonation")]
+        public async Task<IActionResult> GetDonation()
+        {
+            try
+            {
+                var result = await _formService.GetDonation();
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -413,6 +444,47 @@ namespace ConvergeAPI.Controllers
                 return Ok(ResponseHelper.GetFailureResponse());
             }
         }
+
+        [HttpGet("get-donation-type")]
+        public async Task<IActionResult> GetDonationType()
+        {
+            try
+            {
+                var result = await _formService.GetDonationType(); 
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+        [HttpGet("get-donation-detail-type")]
+        public async Task<IActionResult> GetDonationDetailType()
+        {
+            try
+            {
+                var result = await _formService.GetDonationDetailType();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+        [HttpGet("get-donation-status")]
+        public async Task<IActionResult> GetDonationStatus()
+        {
+            try
+            {
+                var result = await _formService.GetDonationStatus();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+        
 
         #endregion
 

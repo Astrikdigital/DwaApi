@@ -152,7 +152,7 @@ namespace ConvergeAPI.Controllers
 
         }
           [HttpPost("InsertUpdateDonation")]
-        public async Task<IActionResult> InsertUpdateDonation(Donation donation)
+        public async Task<IActionResult> InsertUpdateDonation([FromForm] Donation donation)
         {
             try
             {

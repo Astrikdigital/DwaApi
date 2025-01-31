@@ -31,6 +31,7 @@ namespace BusinessObjectsLayer.Entities
         public int? DonorId { get; set; }
         public int? DonationStatusId { get; set; }
         public string? Attachment { get; set; }
+        public IFormFile? Attach { get; set; }
         public int? InventoryId { get; set; }
         public int? Quantity { get; set; } 
 

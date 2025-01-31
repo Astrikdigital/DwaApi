@@ -28,7 +28,7 @@ namespace Converge.Shared.Helper
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 "application/x-rar-compressed"};
 
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".pdf", ".xlsx", ".xls", ".doc", ".docx", ".rar" };
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".pdf", ".xlsx", ".xls", ".doc", ".docx", ".rar",".zip" };
 
                 var fileExtension = Path.GetExtension(attachFile.FileName).ToLower();
 

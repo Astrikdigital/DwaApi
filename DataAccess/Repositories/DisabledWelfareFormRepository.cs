@@ -226,6 +226,27 @@ namespace DataAccessLayer
         }
 
 
+        public async Task<dynamic> GetEmployeeById(int? Id = null)
+        {
+            try
+            {
+                var param = new
+                {
+                    Id = Id
+                };
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var res = (await con.QueryAsync<dynamic>("GetEmployeeById", param: param, commandType: CommandType.StoredProcedure)).ToList();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
         public async Task<dynamic> InsertUpdateEmployee(EmployeeForm employeeForm)
         {
             try
@@ -235,7 +256,7 @@ namespace DataAccessLayer
                     var param = new
                     {
                         Id = employeeForm.Id,
-                        DisignationId = employeeForm.DisignationId,
+                        DesignationId = employeeForm.DesignationId,
                         DepartmentId = employeeForm.DepartmentId,
                         EmployementTypeId = employeeForm.EmployementTypeId,
                         ContractTypeId = employeeForm.ContractTypeId,
@@ -248,8 +269,8 @@ namespace DataAccessLayer
                         Name = employeeForm.Name,
                         Email = employeeForm.Email,
                         Phone = employeeForm.Phone,
-                        DateofJoining = employeeForm.DateofJoining,
-                        DateofExit = employeeForm.DateofExit,
+                        DateOfJoining = employeeForm.DateOfJoining,
+                        DateOfExit = employeeForm.DateOfExit,
                         Salary = employeeForm.Salary,
                         Location = employeeForm.Location,
                         EmergencyContactNo = employeeForm.EmergencyContactNo,
@@ -261,8 +282,9 @@ namespace DataAccessLayer
                         PersonalEmail = employeeForm.PersonalEmail,
                         PermanentAddress = employeeForm.PermanentAddress,
                         ResidentialAddress = employeeForm.ResidentialAddress,
-                        Attachment = employeeForm.Attachment,
-                        ProfilePicture = employeeForm.ProfilePicture
+                        Attachment = employeeForm.attachmentUrl,
+                        ProfilePicture = employeeForm.ProfilePicture,
+
                     };
                     using (IDbConnection con = _context.CreateConnection())
                     {
@@ -398,6 +420,19 @@ namespace DataAccessLayer
             }
         }
 
+        public async Task<dynamic> GetEmploymentType()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                return (await con.QueryAsync("GetEmploymentType", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+        }
+
         public async Task<dynamic> InsertOGTable(OGTables ogTable)
         {
             try
@@ -426,6 +461,9 @@ namespace DataAccessLayer
             }
 
         }
+
+
+
 
         #endregion
     }

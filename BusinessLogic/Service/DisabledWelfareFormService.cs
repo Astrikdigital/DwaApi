@@ -1,6 +1,7 @@
 ﻿using BusinessObjectsLayer.Entities;
 using Converge.Shared.Helper;
 using DataAccessLayer;
+using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
@@ -102,12 +103,66 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+        
+       public async Task<dynamic> InsertUpdateDonor(DonorModel donor)
+        {
+            try
+            {
+                string ProfilePictureName = null;
+                string ProfilePictureUrl = null;
+                if (donor.AttachProfilePicture != null && donor.AttachProfilePicture.Length > 0)
+                {
+                    (ProfilePictureName, ProfilePictureUrl) = await Helper.AttachFileAsync(donor.AttachProfilePicture, _environment, 1);
+                    donor.PictureUrl = ProfilePictureUrl;
+                }
+                if (donor.AttachmentDocument != null && donor.AttachmentDocument.Length > 0)
+                {
+                   var (filename, fileurl) = await Helper.AttachFileAsync(donor.AttachmentDocument, _environment, 1);
+                    donor.Attachment = fileurl;
+                }
+                var res = await _disabledWelfareFormRepository.InsertUpdateDonor(donor);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<dynamic> GetInventory()
         {
             try
             {
                
                 var res = await _disabledWelfareFormRepository.GetInventory();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetDonor(string SearchString)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetDonor(SearchString);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> DeleteTableRow(string TableName,int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.DeleteTableRow(TableName, Id);
                 return res;
             }
             catch (Exception ex)

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Hub\" />
     <Folder Include="Middlewares\" />
     <Folder Include="wwwroot\Attachments\Assignment\FacultyUpload\" />
     <Folder Include="wwwroot\Attachments\Assignment\StudentUpload\" />

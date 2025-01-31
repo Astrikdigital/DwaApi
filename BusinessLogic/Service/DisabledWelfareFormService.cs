@@ -315,11 +315,42 @@ namespace BusinessLogicLayer.Service
             }
         }
 
+        public async Task<dynamic> GetEmployeeById(int? Id = null)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetEmployeeById(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         public async Task<dynamic> InsertUpdateEmployee(EmployeeForm employeeForm)
         {
             try
             {
+                string ProfilePictureName = null;
+                string ProfilePictureUrl = null;
+                string attachmentName = null;
+                string attachmentUrl = null;
+
+
+
+                if (employeeForm.Profile != null && employeeForm.Profile.Length > 0)
+                {
+                    (ProfilePictureName, ProfilePictureUrl) = await Helper.AttachFileAsync(employeeForm.Profile, _environment, 1);
+                    employeeForm.ProfilePicture = ProfilePictureUrl;
+                }
+
+                if (employeeForm.Attachment != null && employeeForm.Attachment.Length > 0)
+                {
+                    (attachmentName, attachmentUrl) = await Helper.AttachFileAsync(employeeForm.Attachment, _environment, 1);
+                    employeeForm.attachmentUrl = attachmentUrl;
+                }
                 var res = await _disabledWelfareFormRepository.InsertUpdateEmployee(employeeForm);
                 return res;
             }
@@ -475,6 +506,18 @@ namespace BusinessLogicLayer.Service
             try
             {
                 var res = await _disabledWelfareFormRepository.GetDonationStatus();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> GetEmploymentType()
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetEmploymentType();
                 return res;
             }
             catch (Exception ex)

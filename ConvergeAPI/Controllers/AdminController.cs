@@ -27,8 +27,7 @@ namespace ConvergeAPI.Controllers
         }
 
         [HttpPost("insert-update-registration")]
-        public async Task<IActionResult> InsertUpdateRegistration([FromForm] DisabledWelFareForm disabledWelFareForm, IFormFile? attachProfilePicture = null)
-        
+        public async Task<IActionResult> InsertUpdateRegistration([FromForm] DisabledWelFareForm disabledWelFareForm, IFormFile? attachProfilePicture = null)    
         {
             try
             {
@@ -263,6 +262,25 @@ namespace ConvergeAPI.Controllers
                 return BadRequest("Error");
             }
         }
+
+
+        [HttpGet("get-employee-by-id")]
+        public async Task<IActionResult> GetEmployeeById(int? Id = null)
+        {
+            try
+            {
+                var result = await _formService.GetEmployeeById(Id);
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
         #endregion
 
 
@@ -484,7 +502,23 @@ namespace ConvergeAPI.Controllers
                 return Ok(ResponseHelper.GetFailureResponse());
             }
         }
-        
+          [HttpGet("get-employment-type")]
+        public async Task<IActionResult> GetEmploymentType()
+        {
+            try
+            {
+                var result = await _formService.GetEmploymentType();
+                //if (result.Id == 0)
+                //{
+                //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
+                //}
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
 
         #endregion
 

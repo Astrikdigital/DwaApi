@@ -26,12 +26,12 @@ namespace ConvergeAPI.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpPost("insert-update-registration")]
-        public async Task<IActionResult> InsertUpdateRegistration([FromForm] DisabledWelFareForm disabledWelFareForm, IFormFile? attachProfilePicture = null)    
+        [HttpPost("insert-update-beneficiary")]
+        public async Task<IActionResult> InsertUpdateBeneficiary([FromForm] DisabledWelFareForm disabledWelFareForm, IFormFile? attachProfilePicture = null)    
         {
             try
             {
-                var result = await _formService.InsertUpdateRegistration(disabledWelFareForm, attachProfilePicture);
+                var result = await _formService.InsertUpdateBeneficiary(disabledWelFareForm, attachProfilePicture);
                 if (result.Id == 0)
                 {
                     return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
@@ -44,12 +44,12 @@ namespace ConvergeAPI.Controllers
             }
         }
 
-        [HttpGet("get-registration")]
-        public async Task<IActionResult> GetRegistration(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1,string?gender = null)
+        [HttpGet("get-beneficiary")]
+        public async Task<IActionResult> GetBeneficiary(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1,string?gender = null)
         { 
             try
             {
-                var result = await _formService.GetRegistration(Id, SerachText, PageSize,PageNumber, gender);
+                var result = await _formService.GetBeneficiary(Id, SerachText, PageSize,PageNumber, gender);
                 //if (result.Id == 0)
                 //{
                 //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
@@ -62,12 +62,12 @@ namespace ConvergeAPI.Controllers
             }
         }
 
-        [HttpPost("delete-registration")]
-        public async Task<IActionResult> DeleteRegistration(int Id)
+        [HttpPost("delete-beneficiary")]
+        public async Task<IActionResult> DeleteBeneficiary(int Id)
         {
             try
             {
-                var result = await _formService.DeleteRegistration(Id);
+                var result = await _formService.DeleteBeneficiary(Id);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -76,12 +76,12 @@ namespace ConvergeAPI.Controllers
             }
         }
 
-        [HttpGet("get-registrationddl")]
-        public async Task<IActionResult> GetRegistrationDDL()
+        [HttpGet("get-beneficiaryddl")]
+        public async Task<IActionResult> GetBeneficiaryDDL()
         {
             try
             {
-                var result = await _formService.GetRegistrationDDL();
+                var result = await _formService.GetBeneficiaryDDL();
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -112,6 +112,21 @@ namespace ConvergeAPI.Controllers
             try
             {
                 var result = await _formService.GetInventory();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("UpdateDonationStatus")]
+        public async Task<IActionResult> UpdateDonationStatus(int? Id,int? DonationStatusId)
+        {
+            try
+            {
+                var result = await _formService.UpdateDonationStatus(Id, DonationStatusId);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -152,7 +167,7 @@ namespace ConvergeAPI.Controllers
 
         }
           [HttpPost("InsertUpdateDonation")]
-        public async Task<IActionResult> InsertUpdateDonation(Donation donation)
+        public async Task<IActionResult> InsertUpdateDonation([FromForm] Donation donation)
         {
             try
             {
@@ -167,11 +182,11 @@ namespace ConvergeAPI.Controllers
 
         }
         [HttpGet("GetDonation")]
-        public async Task<IActionResult> GetDonation()
+        public async Task<IActionResult> GetDonation(int? Id)
         {
             try
             {
-                var result = await _formService.GetDonation();
+                var result = await _formService.GetDonation(Id);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)

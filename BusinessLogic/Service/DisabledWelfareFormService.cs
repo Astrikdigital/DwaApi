@@ -32,7 +32,7 @@ namespace BusinessLogicLayer.Service
             _environment = environment;
             _disabledWelfareFormRepository = disabledWelfareFormRepository;
         }
-        public async Task<dynamic> InsertUpdateRegistration(DisabledWelFareForm disabledWelfareForm, IFormFile? attachProfilePicture = null)
+        public async Task<dynamic> InsertUpdateBeneficiary(DisabledWelFareForm disabledWelfareForm, IFormFile? attachProfilePicture = null)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace BusinessLogicLayer.Service
                     (ProfilePictureName, ProfilePictureUrl) = await Helper.AttachFileAsync(attachProfilePicture, _environment, 1);
                     disabledWelfareForm.Image = ProfilePictureUrl;
                 }
-                var res = await _disabledWelfareFormRepository.InsertUpdateRegistration(disabledWelfareForm);
+                var res = await _disabledWelfareFormRepository.InsertUpdateBeneficiary(disabledWelfareForm);
                 return res;
             }
             catch (Exception ex)
@@ -52,11 +52,11 @@ namespace BusinessLogicLayer.Service
                 return null;
             }
         }
-        public async Task<dynamic> GetRegistration(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1, string gender = null)
+        public async Task<dynamic> GetBeneficiary(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1, string gender = null)
         {
             try
             {
-                var res = await _disabledWelfareFormRepository.GetRegistration(Id, SerachText, PageSize, PageNumber, gender);
+                var res = await _disabledWelfareFormRepository.GetBeneficiary(Id, SerachText, PageSize, PageNumber, gender);
                 return res;
             }
             catch (Exception ex)
@@ -65,16 +65,16 @@ namespace BusinessLogicLayer.Service
             }
         }
 
-        public async Task<dynamic> DeleteRegistration(int Id)
+        public async Task<dynamic> DeleteBeneficiary(int Id)
         {
-            var res = await _disabledWelfareFormRepository.DeleteRegistration(Id);
+            var res = await _disabledWelfareFormRepository.DeleteBeneficiary(Id);
             return res;
         }
-        public async Task<dynamic> GetRegistrationDDL()
+        public async Task<dynamic> GetBeneficiaryDDL()
         {
             try
             {
-                var res = await _disabledWelfareFormRepository.GetRegistrationDDL();
+                var res = await _disabledWelfareFormRepository.GetBeneficiaryDDL();
                 return res;
             }
             catch (Exception ex)
@@ -129,6 +129,21 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+        
+        public async Task<dynamic> UpdateDonationStatus(int? Id, int? DonationStatusId)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.UpdateDonationStatus(Id, DonationStatusId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<dynamic> GetInventory()
         {
             try
@@ -148,7 +163,11 @@ namespace BusinessLogicLayer.Service
         {
             try
             {
-
+                if (donation.AttachmentDocument != null && donation.AttachmentDocument.Length > 0)
+                {
+                    var (filename, fileurl) = await Helper.AttachFileAsync(donation.AttachmentDocument, _environment, 1);
+                    donation.Attachment = fileurl;
+                }
                 var res = await _disabledWelfareFormRepository.InsertUpdateDonation(donation);
                 return res;
             }
@@ -172,12 +191,12 @@ namespace BusinessLogicLayer.Service
             }
 
         }
-        public async Task<dynamic> GetDonation()
+        public async Task<dynamic> GetDonation(int? Id)
         {
             try
             {
 
-                var res = await _disabledWelfareFormRepository.GetDonation();
+                var res = await _disabledWelfareFormRepository.GetDonation(Id);
                 return res;
             }
             catch (Exception ex)

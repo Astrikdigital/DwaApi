@@ -139,6 +139,8 @@ namespace DataAccessLayer
                     Date = donation.Date,
                     Attachment = donation.Attachment,
                     InventoryId = donation.InventoryId,
+                    BankId = donation.BankId,
+                    IncomeTypeId = donation.IncomeTypeId,
                     Quantity = donation.Quantity
                 };
                 var Id = (await con.QueryAsync("InsertUpdateDonation", param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
@@ -176,7 +178,9 @@ namespace DataAccessLayer
                 donation.TransactionId = donor.TransactionId;
                 donation.Amount = donor.Amount;
                 donation.Attachment = donor.Attachment;
-                donation.DonorId = Id;       
+                donation.BankId = donor.BankId;
+                donation.IncomeTypeId  = donor.IncomeTypeId;
+                    donation.DonorId = Id;       
                 InsertUpdateDonation(donation);
                 }
                 return true;
@@ -289,7 +293,7 @@ namespace DataAccessLayer
                     Description = inventory.Description,
                     Image = inventory.Image
                 };
-                return (await con.QueryAsync("InsertUpdateInventory",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();  
+                return (await con.QueryAsync("InsertupdateInventory", param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();  
             }
             catch (Exception ex)
             {
@@ -753,6 +757,32 @@ namespace DataAccessLayer
             }
         }
         #endregion
+        public async Task<dynamic> GetIncomeTypes()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                return (await con.QueryAsync("GetIncomeTypes", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetBanks()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                return (await con.QueryAsync("GetBanks", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
     }
 
 

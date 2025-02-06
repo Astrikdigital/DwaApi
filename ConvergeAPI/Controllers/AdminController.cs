@@ -608,6 +608,23 @@ namespace ConvergeAPI.Controllers
             }
         }
         #endregion
+
+
+        [HttpGet("get-beneficiary-type")]
+        public async Task<IActionResult> GetBeneficiaryType()
+        {
+            try
+            {
+                var result = await _formService.GetBeneficiaryType();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
     }
 }
 

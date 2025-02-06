@@ -63,7 +63,7 @@ builder.Services.AddScoped<DisabledWelfareFormRepository>();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Converge API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "DWA_API", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,

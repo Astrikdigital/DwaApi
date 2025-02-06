@@ -634,12 +634,39 @@ namespace BusinessLogicLayer.Service
             }
         }
         #endregion
-
-        public async Task<dynamic> GetBeneficiaryType()
+public async Task<dynamic> GetBeneficiaryType()
         {
             try
             {
                 var res = await _disabledWelfareFormRepository.GetBenificiaryType();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetIncomeTypes()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetIncomeTypes();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetBanks()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetBanks();
                 return res;
             }
             catch (Exception ex)

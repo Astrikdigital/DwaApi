@@ -610,12 +610,42 @@ namespace ConvergeAPI.Controllers
         #endregion
 
 
-        [HttpGet("get-beneficiary-type")]
+ [HttpGet("get-beneficiary-type")]
         public async Task<IActionResult> GetBeneficiaryType()
         {
             try
             {
                 var result = await _formService.GetBeneficiaryType();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("GetIncomeTypes")]
+        public async Task<IActionResult> GetIncomeTypes()
+        {
+            try
+            {
+                var result = await _formService.GetIncomeTypes();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("GetBanks")]
+        public async Task<IActionResult> GetBanks()
+        {
+            try
+            {
+                var result = await _formService.GetBanks();
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)

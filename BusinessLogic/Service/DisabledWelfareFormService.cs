@@ -649,6 +649,80 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+        
+        public async Task<dynamic> GetInventoryUtilizationDll()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetInventoryUtilizationDll();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        
+       public async Task<dynamic> InsertUpdateTransaction(TransactionModel model)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.InsertUpdateTransaction(model);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetDebitTransactions(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetDebitTransactions(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        } 
+        public async Task<dynamic> InsertUpdateInventoryUtilization(InventoryUtilization inventory)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.InsertUpdateInventoryUtilization(inventory);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+
+        public async Task<dynamic> GetInventoryUtilization(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetInventoryUtilization(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<dynamic> GetBanks()
         {
             try
@@ -663,5 +737,20 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+        public async Task<dynamic> GetProject()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetProject();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        
     }
 }

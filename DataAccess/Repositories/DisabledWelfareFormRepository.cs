@@ -1,11 +1,14 @@
 ﻿using BusinessObjectsLayer.Entities;
 using Dapper;
 using DataAccess.DbContext;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
 using System.Data;
+using System.Transactions;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace DataAccessLayer
@@ -137,6 +140,7 @@ namespace DataAccessLayer
                     TransactionId = donation.TransactionId,
                     Amount = donation.Amount,
                     Date = donation.Date,
+                    ProjectId = donation.ProjectId,
                     Attachment = donation.Attachment,
                     InventoryId = donation.InventoryId,
                     BankId = donation.BankId,
@@ -163,6 +167,7 @@ namespace DataAccessLayer
                     Id=donor.Id,
                     Name=   donor.Name,
                     Email= donor.Email,
+                    Address = donor.Address,
                     PhoneNumber= donor.PhoneNumber,
                     PictureUrl= donor.PictureUrl
                 };
@@ -178,8 +183,9 @@ namespace DataAccessLayer
                 donation.TransactionId = donor.TransactionId;
                 donation.Amount = donor.Amount;
                 donation.Attachment = donor.Attachment;
+                donation.ProjectId = donor.ProjectId;
                 donation.BankId = donor.BankId;
-                donation.IncomeTypeId  = donor.IncomeTypeId;
+                    donation.IncomeTypeId  = donor.IncomeTypeId;
                     donation.DonorId = Id;       
                 InsertUpdateDonation(donation);
                 }
@@ -770,11 +776,99 @@ namespace DataAccessLayer
             }
 
         }
+        public async Task<dynamic> GetInventoryUtilizationDll()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                using var multi = await con.QueryMultipleAsync("GetInventoryUtilizationDll", commandType: CommandType.StoredProcedure);
+                var mainhead = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var head = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var subhead = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var employee = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var project = (await multi.ReadAsync<dynamic>()).ToList();
+                var beneficiary = (await multi.ReadAsync<dynamic>()).ToList();
+                var inventory = (await multi.ReadAsync<dynamic>()).ToList();
+                var banks = (await multi.ReadAsync<dynamic>()).ToList();
+                return new { mainhead, head, subhead, employee, project , beneficiary, inventory,banks };
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        
+         
+        public async Task<dynamic> InsertUpdateTransaction(TransactionModel transaction)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = transaction.Id,
+                    TransactionTypeId = transaction.TransactionTypeId,
+                    BankId = transaction.BankId,
+                    Amount = transaction.Amount,
+                    ProjectId = transaction.ProjectId,
+                    TransactionId = transaction.TransactionId,
+                    DonationId = transaction.DonationId,
+                    MainHeadId = transaction.MainHeadId,
+                    HeadId = transaction.HeadId,
+                    SubHeadId = transaction.SubHeadId
+                };
+                return (await con.QueryAsync("InsertUpdateTransaction",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> InsertUpdateInventoryUtilization(InventoryUtilization utili)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = utili.Id,
+                    BeneficiaryId = utili.BeneficiaryId,
+                    Quantity =  utili.Quantity  ,
+                    ProjectId = utili.ProjectId,
+                    InventoryId = utili.InventoryId
+                };
+                return (await con.QueryAsync("InsertUpdateInventoryUtilization", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        
+        public async Task<dynamic> GetProject()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+
+                return (await con.QueryAsync("GetProject", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<dynamic> GetBanks()
         {
             try
             {
                 using var con = _context.CreateConnection();
+
                 return (await con.QueryAsync("GetBanks", commandType: CommandType.StoredProcedure)).ToList();
             }
             catch (Exception ex)
@@ -783,6 +877,41 @@ namespace DataAccessLayer
             }
 
         }
+        public async Task<dynamic> GetDebitTransactions(int? Id)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id
+                };
+                return (await con.QueryAsync("GetDebitTransactions",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetInventoryUtilization(int? Id)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id
+                };
+                return (await con.QueryAsync("GetInventoryUtilization",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        
     }
 
 

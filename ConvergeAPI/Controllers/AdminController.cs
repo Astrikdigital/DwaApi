@@ -641,6 +641,94 @@ namespace ConvergeAPI.Controllers
             }
 
         }
+        [HttpGet("GetInventoryUtilizationDll")]
+        public async Task<IActionResult> GetInventoryUtilizationDll()
+        {
+            try
+            {
+                var result = await _formService.GetInventoryUtilizationDll();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpPost("InsertUpdateTransaction")]
+        public async Task<IActionResult> InsertUpdateTransaction(TransactionModel model)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateTransaction(model);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("GetDebitTransactions")]
+        public async Task<IActionResult> GetDebitTransactions(int? Id)
+        {
+            try
+            {
+                var result = await _formService.GetDebitTransactions(Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("GetInventoryUtilization")]
+        public async Task<IActionResult> GetInventoryUtilization(int? Id)
+        {
+            try
+            {
+                var result = await _formService.GetInventoryUtilization(Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            } 
+        }
+        [HttpPost("InsertUpdateInventoryUtilization")]
+        public async Task<IActionResult> InsertUpdateInventoryUtilization(InventoryUtilization inventory)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateInventoryUtilization(inventory);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
+        [HttpGet("GetProject")]
+        public async Task<IActionResult> GetProject()
+        {
+            try
+            {
+                var result = await _formService.GetProject();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
+
     }
 }
 

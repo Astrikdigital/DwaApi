@@ -29,6 +29,7 @@ namespace BusinessObjectsLayer.Entities
         public int? Amount { get; set; }
         public DateTime? Date { get; set; }
         public int? DonorId { get; set; }
+        public int? ProjectId { get; set; }
         public int? BankId { get; set; }
         public int? IncomeTypeId { get; set; }
         public int? DonationStatusId { get; set; }
@@ -45,7 +46,9 @@ namespace BusinessObjectsLayer.Entities
         public IFormFile? AttachmentDocument { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
+        public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
+        public int? ProjectId { get; set; }
         public string? PictureUrl { get; set; }
         public int? DonationTypeId { get; set; }
         public int? DonationStatusId { get; set; }

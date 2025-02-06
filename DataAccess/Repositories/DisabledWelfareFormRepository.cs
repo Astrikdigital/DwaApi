@@ -24,8 +24,7 @@ namespace DataAccessLayer
         {
             try
             {
-                try
-                {
+               
                     var param = new
                     {
                         Id = disabledWelfareForm.Id,
@@ -50,6 +49,11 @@ namespace DataAccessLayer
                         CauseDisabilityId = disabledWelfareForm.CauseDisabilityId,
                         Reference = disabledWelfareForm.Reference,
                         NeedsRemarks = disabledWelfareForm.NeedsRemarks,
+                        FirstName = disabledWelfareForm.FirstName,
+                        LastName = disabledWelfareForm.LastName,
+                        BusinessName = disabledWelfareForm.BusinessName,
+                        BusinessType = disabledWelfareForm.BusinessType,
+                        BeneficiaryTypeId = disabledWelfareForm.BeneficiaryTypeId,
                     };
                     using (IDbConnection con = _context.CreateConnection())
                     {
@@ -57,11 +61,6 @@ namespace DataAccessLayer
                         disabledWelfareForm.Id = resp.Id;
                         return disabledWelfareForm;
                     }
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
 
             }
             catch (Exception ex)
@@ -876,6 +875,18 @@ namespace DataAccessLayer
                 return (null);
             }
 
+        }
+       public async Task<dynamic> GetBenificiaryType()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                return (await con.QueryAsync("select Id,Title from BeneficiaryType where IsActive = 1", commandType: CommandType.Text)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
         }
         public async Task<dynamic> GetDebitTransactions(int? Id)
         {

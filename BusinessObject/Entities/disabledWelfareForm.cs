@@ -37,5 +37,12 @@ namespace BusinessObjectsLayer.Entities
         public DateTime? CreatedOn { get; set; }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? BusinessName { get; set; }
+        public string? BusinessType{ get; set; }
+
+        public int? BeneficiaryTypeId { get; set; }
+
     }
 }

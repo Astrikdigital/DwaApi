@@ -53,6 +53,9 @@ namespace BusinessObjectsLayer.Entities
         public int? DonationTypeId { get; set; }
         public int? DonationStatusId { get; set; }
         public int? BankId { get; set; }
+        public int? DonorTypeId { get; set; }
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
         public int? IncomeTypeId { get; set; }
 
         public int? DonationDetailTypeId { get; set; }

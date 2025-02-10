@@ -12,6 +12,7 @@ namespace BusinessObjectsLayer.Entities
         public int? TransactionTypeId { get; set; } 
         public int? BankId { get; set; } 
         public int? Amount { get; set; } 
+        public DateTime? Date { get; set; }
         public int? ProjectId { get; set; } 
         public int? DonationId { get; set; } 
         public int? MainHeadId { get; set; } 

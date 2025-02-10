@@ -634,7 +634,7 @@ namespace BusinessLogicLayer.Service
             }
         }
         #endregion
-public async Task<dynamic> GetBeneficiaryType()
+        public async Task<dynamic> GetBeneficiaryType()
         {
             try
             {
@@ -763,6 +763,49 @@ public async Task<dynamic> GetBeneficiaryType()
             }
 
         }
-        
+        public async Task<dynamic> GetDashboard(int? DonationYear, int? ExpenseYear, int? ExpenseMonth)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetDashboard(DonationYear, ExpenseYear,  ExpenseMonth);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetCityByCountryId(int? CountryId)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetCityByCountryId(CountryId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetDonorDll()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetDonorDll();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+
     }
 }

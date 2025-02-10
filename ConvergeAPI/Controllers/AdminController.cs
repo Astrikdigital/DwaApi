@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using Amazon.Runtime;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Response;
 using BusinessLogicLayer.Service;
 using BusinessObjectsLayer.Entities;
@@ -734,6 +735,48 @@ namespace ConvergeAPI.Controllers
             try
             {
                 var result = await _formService.GetProject();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
+        [HttpGet("GetDonorDll")]
+        public async Task<IActionResult> GetDonorDll()
+        {
+            try
+            {
+                var result = await _formService.GetDonorDll();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
+        [HttpGet("GetCityByCountryId")]
+        public async Task<IActionResult> GetCityByCountryId(int? CountryId)
+        {
+            try
+            {
+                var result = await _formService.GetCityByCountryId(CountryId);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
+        [HttpGet("GetDashboard")]
+        public async Task<IActionResult> GetDashboard(int? DonationYear, int? ExpenseYear, int? ExpenseMonth)
+        {
+            try
+            {
+                var result = await _formService.GetDashboard(DonationYear, ExpenseYear, ExpenseMonth);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)

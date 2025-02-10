@@ -7,6 +7,7 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
+using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Transactions;
 using static System.Net.Mime.MediaTypeNames;
@@ -168,7 +169,10 @@ namespace DataAccessLayer
                     Email= donor.Email,
                     Address = donor.Address,
                     PhoneNumber= donor.PhoneNumber,
-                    PictureUrl= donor.PictureUrl
+                    CountryId = donor.CountryId,
+                    CityId = donor.CityId,
+                    DonorTypeId = donor.DonorTypeId,
+                    PictureUrl = donor.PictureUrl
                 };
                 var Id =  (await con.QueryAsync<int>("InsertUpdateDonor",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
                 if (donor.Id==null) { 
@@ -815,6 +819,7 @@ namespace DataAccessLayer
                     DonationId = transaction.DonationId,
                     MainHeadId = transaction.MainHeadId,
                     HeadId = transaction.HeadId,
+                    Date = transaction.Date,
                     SubHeadId = transaction.SubHeadId
                 };
                 return (await con.QueryAsync("InsertUpdateTransaction",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
@@ -847,7 +852,31 @@ namespace DataAccessLayer
 
         }
 
-        
+       
+         public async Task<dynamic> GetDashboard(int? DonationYear, int? ExpenseYear, int? ExpenseMonth)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    DonationYear = DonationYear,
+                    ExpenseYear = ExpenseYear,
+                    ExpenseMonth = ExpenseMonth
+                };
+                using var multi = await con.QueryMultipleAsync("GetDashboard",param:parameters, commandType: CommandType.StoredProcedure);
+                var head = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var chartdonation = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var chartexpense = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var summary = (await multi.ReadAsync<dynamic>()).ToList(); 
+                return new { head, chartdonation, chartexpense, summary};
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<dynamic> GetProject()
         {
             try
@@ -922,7 +951,51 @@ namespace DataAccessLayer
             }
 
         }
+        public async Task<dynamic> GetCityByCountryId(int? CountryId)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    CountryId = CountryId
+                };
+                return (await con.QueryAsync("GetCityByCountryId", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         
+        public async Task<dynamic> GetDonorDll()
+        {
+            try
+            {
+                using var con = _context.CreateConnection(); 
+                 
+                using var multi = await con.QueryMultipleAsync("GetDonorDll",  commandType: CommandType.StoredProcedure);
+                var Project = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var DonationType = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var DonationDetailType = (await multi.ReadAsync<dynamic>()).ToList(); 
+                var Inventory = (await multi.ReadAsync<dynamic>()).ToList();
+                var DonationStatus = (await multi.ReadAsync<dynamic>()).ToList();
+                var IncomeType = (await multi.ReadAsync<dynamic>()).ToList();
+                var Bank = (await multi.ReadAsync<dynamic>()).ToList();
+                var Countries = (await multi.ReadAsync<dynamic>()).ToList();
+                var DonorType = (await multi.ReadAsync<dynamic>()).ToList();
+                return new { Project, DonationType, DonationDetailType, 
+                    Inventory, DonationStatus, IncomeType,Bank ,Countries,DonorType
+                };
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
     }
 
 

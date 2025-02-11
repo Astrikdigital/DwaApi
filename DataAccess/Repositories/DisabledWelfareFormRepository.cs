@@ -1138,7 +1138,26 @@ namespace DataAccessLayer
                         PageNumber = PageNumber,
                         PageSize = PageSize
                     };
-                    var res = (await con.QueryAsync<dynamic>("GetDepositBankSlip",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                    var res = (await con.QueryAsync<dynamic>("GetDepositBankSlip",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> DeleteDepositBankSlip(int? Id)
+        {
+            try
+            {
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var parameters = new
+                    {
+                        Id = Id
+                    };
+                    var res = (await con.QueryAsync<dynamic>("DeleteDepositBankSlip", param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
                     return res;
                 }
             }

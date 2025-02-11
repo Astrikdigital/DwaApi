@@ -871,6 +871,20 @@ namespace ConvergeAPI.Controllers
 
             }
         }
+        [HttpGet("DeleteDepositBankSlip")]
+        public async Task<IActionResult> DeleteDepositBankSlip(int? Id)
+        {
+            try
+            {
+                var result = await _formService.DeleteDepositBankSlip(Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
 
     }
 }

@@ -46,11 +46,11 @@ namespace ConvergeAPI.Controllers
         }
 
         [HttpGet("get-beneficiary")]
-        public async Task<IActionResult> GetBeneficiary(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1,string?gender = null)
+        public async Task<IActionResult> GetBeneficiary(int? Id = null, string? searchText = null, int? PageSize = 20, int? PageNumber = 1,string?gender = null)
         { 
             try
             {
-                var result = await _formService.GetBeneficiary(Id, SerachText, PageSize,PageNumber, gender);
+                var result = await _formService.GetBeneficiary(Id, searchText, PageSize,PageNumber, gender);
                 //if (result.Id == 0)
                 //{
                 //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
@@ -108,11 +108,11 @@ namespace ConvergeAPI.Controllers
 
         }
         [HttpGet("GetInventory")]
-        public async Task<IActionResult> GetInventory()
+        public async Task<IActionResult> GetInventory(string? SearchText, int? PageNumber, int? PageSize)
         {
             try
             {
-                var result = await _formService.GetInventory();
+                var result = await _formService.GetInventory(SearchText, PageNumber, PageSize);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -153,11 +153,11 @@ namespace ConvergeAPI.Controllers
 
         } 
         [HttpGet("GetDonor")]
-        public async Task<IActionResult> GetDonor(int? Id, string? SearchText)
+        public async Task<IActionResult> GetDonor(int? Id, string? SearchText,int? PageNumber,int? PageSize)
         {
             try
             {
-                var result = await _formService.GetDonor(Id,SearchText);
+                var result = await _formService.GetDonor(Id,SearchText, PageNumber, PageSize);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -183,11 +183,11 @@ namespace ConvergeAPI.Controllers
 
         }
         [HttpGet("GetDonation")]
-        public async Task<IActionResult> GetDonation(int? Id)
+        public async Task<IActionResult> GetDonation(int? Id, int? PageNumber, int? PageSize, string? SearchText)
         {
             try
             {
-                var result = await _formService.GetDonation(Id);
+                var result = await _formService.GetDonation(Id, PageNumber,PageSize, SearchText);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -242,11 +242,11 @@ namespace ConvergeAPI.Controllers
 
         #region Employee
         [HttpGet("get-employee")]
-        public async Task<IActionResult> GetEmployee(string serachText = null, int? stafTypeId = null,int PageSize = 20, int? PageNumber = 1)
+        public async Task<IActionResult> GetEmployee(string searchText = null, int? stafTypeId = null,int PageSize = 20, int? PageNumber = 1)
         {
             try
             {
-                var result = await _formService.GetEmployee(serachText, stafTypeId, PageSize,PageNumber);
+                var result = await _formService.GetEmployee(searchText, stafTypeId, PageSize,PageNumber);
                 //if (result.Id == 0)
                 //{
                 //    return Ok(ResponseHelper.GetDublicateResponse(result, ResponseMessage.DuplicateUser));
@@ -558,11 +558,11 @@ namespace ConvergeAPI.Controllers
 
         #region Volunteer
         [HttpGet("get-volunteer")]
-        public async Task<IActionResult> GetAllVolunteers(string serachText = null, int PageSize = 20, int? PageNumber = 1)
+        public async Task<IActionResult> GetAllVolunteers(string searchText = null, int PageSize = 20, int? PageNumber = 1)
         {
             try
             {
-                var result = await _formService.GetAllVolunteers(serachText, PageSize, PageNumber);
+                var result = await _formService.GetAllVolunteers(searchText, PageSize, PageNumber);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -687,11 +687,11 @@ namespace ConvergeAPI.Controllers
 
         }
         [HttpGet("GetDebitTransactions")]
-        public async Task<IActionResult> GetDebitTransactions(int? Id)
+        public async Task<IActionResult> GetDebitTransactions(int? Id, int? PageNumber, int? PageSize)
         {
             try
             {
-                var result = await _formService.GetDebitTransactions(Id);
+                var result = await _formService.GetDebitTransactions(Id, PageNumber, PageSize);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -702,11 +702,11 @@ namespace ConvergeAPI.Controllers
 
         }
         [HttpGet("GetInventoryUtilization")]
-        public async Task<IActionResult> GetInventoryUtilization(int? Id)
+        public async Task<IActionResult> GetInventoryUtilization(int? Id, int? PageNumber, int? PageSize)
         {
             try
             {
-                var result = await _formService.GetInventoryUtilization(Id);
+                var result = await _formService.GetInventoryUtilization(Id, PageNumber, PageSize);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -785,7 +785,20 @@ namespace ConvergeAPI.Controllers
 
             }
         }
+        [HttpGet("GetCountry")]
+        public async Task<IActionResult> GetCountry()
+        {
+            try
+            {
+                var result = await _formService.GetCountry();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
 
+            }
+        }
     }
 }
 

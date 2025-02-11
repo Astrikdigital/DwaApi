@@ -52,11 +52,11 @@ namespace BusinessLogicLayer.Service
                 return null;
             }
         }
-        public async Task<dynamic> GetBeneficiary(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1, string gender = null)
+        public async Task<dynamic> GetBeneficiary(int? Id = null, string? searchText = null, int? PageSize = 20, int? PageNumber = 1, string gender = null)
         {
             try
             {
-                var res = await _disabledWelfareFormRepository.GetBeneficiary(Id, SerachText, PageSize, PageNumber, gender);
+                var res = await _disabledWelfareFormRepository.GetBeneficiary(Id, searchText, PageSize, PageNumber, gender);
                 return res;
             }
             catch (Exception ex)
@@ -144,12 +144,12 @@ namespace BusinessLogicLayer.Service
             }
 
         }
-        public async Task<dynamic> GetInventory()
+        public async Task<dynamic> GetInventory(string? SearchText, int? PageNumber, int? PageSize)
         {
             try
             {
                
-                var res = await _disabledWelfareFormRepository.GetInventory();
+                var res = await _disabledWelfareFormRepository.GetInventory(SearchText,PageNumber,PageSize);
                 return res;
             }
             catch (Exception ex)
@@ -177,12 +177,12 @@ namespace BusinessLogicLayer.Service
             }
 
         }
-        public async Task<dynamic> GetDonor(int? Id, string SearchText)
+        public async Task<dynamic> GetDonor(int? Id, string SearchText, int? PageNumber, int? PageSize)
         {
             try
             {
 
-                var res = await _disabledWelfareFormRepository.GetDonor(Id, SearchText);
+                var res = await _disabledWelfareFormRepository.GetDonor(Id, SearchText, PageNumber,PageSize);
                 return res;
             }
             catch (Exception ex)
@@ -191,12 +191,12 @@ namespace BusinessLogicLayer.Service
             }
 
         }
-        public async Task<dynamic> GetDonation(int? Id)
+        public async Task<dynamic> GetDonation(int? Id, int? PageNumber, int? PageSize, string? SearchText)
         {
             try
             {
 
-                var res = await _disabledWelfareFormRepository.GetDonation(Id);
+                var res = await _disabledWelfareFormRepository.GetDonation(Id, PageNumber,PageSize, SearchText);
                 return res;
             }
             catch (Exception ex)
@@ -321,11 +321,11 @@ namespace BusinessLogicLayer.Service
 
 
         #region EmployeeService
-        public async Task<dynamic> GetEmployee(string serachText = null, int? stafTypeId = null, int PageSize = 20, int? PageNumber = 1)
+        public async Task<dynamic> GetEmployee(string searchText = null, int? stafTypeId = null, int PageSize = 20, int? PageNumber = 1)
         {
             try
             {
-                var res = await _disabledWelfareFormRepository.GetEmployee(serachText, stafTypeId, PageSize, PageNumber);
+                var res = await _disabledWelfareFormRepository.GetEmployee(searchText, stafTypeId, PageSize, PageNumber);
                 return res;
             }
             catch (Exception ex)
@@ -573,11 +573,11 @@ namespace BusinessLogicLayer.Service
 
 
         #region Volunteer
-        public async Task<dynamic> GetAllVolunteers(string serachText = null, int PageSize = 20, int? PageNumber = 1)
+        public async Task<dynamic> GetAllVolunteers(string searchText = null, int PageSize = 20, int? PageNumber = 1)
         {
             try
             {
-                var res = await _disabledWelfareFormRepository.GetAllVolunteers(serachText, PageSize, PageNumber);
+                var res = await _disabledWelfareFormRepository.GetAllVolunteers(searchText, PageSize, PageNumber);
                 return res;
             }
             catch (Exception ex)
@@ -691,12 +691,12 @@ namespace BusinessLogicLayer.Service
             }
 
         }
-        public async Task<dynamic> GetDebitTransactions(int? Id)
+        public async Task<dynamic> GetDebitTransactions(int? Id, int? PageNumber, int? PageSize)
         {
             try
             {
 
-                var res = await _disabledWelfareFormRepository.GetDebitTransactions(Id);
+                var res = await _disabledWelfareFormRepository.GetDebitTransactions(Id, PageNumber, PageSize    );
                 return res;
             }
             catch (Exception ex)
@@ -721,12 +721,12 @@ namespace BusinessLogicLayer.Service
         }
 
 
-        public async Task<dynamic> GetInventoryUtilization(int? Id)
+        public async Task<dynamic> GetInventoryUtilization(int? Id, int? PageNumber, int? PageSize)
         {
             try
             {
 
-                var res = await _disabledWelfareFormRepository.GetInventoryUtilization(Id);
+                var res = await _disabledWelfareFormRepository.GetInventoryUtilization(Id, PageNumber,PageSize);
                 return res;
             }
             catch (Exception ex)
@@ -769,6 +769,20 @@ namespace BusinessLogicLayer.Service
             {
 
                 var res = await _disabledWelfareFormRepository.GetDashboard(DonationYear, ExpenseYear,  ExpenseMonth);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetCountry()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetCountry();
                 return res;
             }
             catch (Exception ex)

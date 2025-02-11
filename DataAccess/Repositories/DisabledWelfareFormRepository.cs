@@ -70,7 +70,7 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetBeneficiary(int? Id = null, string? SerachText = null, int? PageSize = 20, int? PageNumber = 1, string gender = null)
+        public async Task<dynamic> GetBeneficiary(int? Id = null, string? searchText = null, int? PageSize = 20, int? PageNumber = 1, string gender = null)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace DataAccessLayer
                     Id = Id,
                     PageNumber = PageNumber,
                     PageSize = PageSize,
-                    SearchText = SerachText,
+                    SearchText = searchText,
                     Gender = gender
                 };
                 using (IDbConnection con = _context.CreateConnection())
@@ -219,12 +219,19 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetInventory()
+        public async Task<dynamic> GetInventory(string? SearchText,int? PageNumber,int? PageSize)
         {
             try
             {
-                using var con = _context.CreateConnection(); 
-                return (await con.QueryAsync("GetInventory",   commandType: CommandType.StoredProcedure)).ToList();
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    SearchText = SearchText,
+                    PageNumber = PageNumber,
+                    PageSize = PageSize
+
+                };
+                return (await con.QueryAsync("GetInventory",param: parameters,   commandType: CommandType.StoredProcedure)).ToList();
             }
             catch (Exception ex)
             {
@@ -250,7 +257,7 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetDonor(int? Id,string SearchText)
+        public async Task<dynamic> GetDonor(int? Id,string SearchText, int? PageNumber, int? PageSize)
         {
             try
             {
@@ -258,7 +265,7 @@ namespace DataAccessLayer
                 var parameters = new
                 {
                     Id=Id,
-                    SearchText = SearchText
+                    SearchText = SearchText,PageNumber = PageNumber,PageSize=PageSize
                 };
                 return (await con.QueryAsync("GetDonor",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
@@ -268,14 +275,17 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetDonation(int? Id)
+        public async Task<dynamic> GetDonation(int? Id,int? PageNumber,int? PageSize, string? SearchText)
         {
             try
             {
                 using var con = _context.CreateConnection();
                 var parameters = new
                 {
-                    Id = Id
+                    Id = Id,
+                    PageNumber=PageNumber,
+                    PageSize= PageSize,
+                    SearchText = SearchText
                 };
                 return (await con.QueryAsync("GetDonation",param: parameters,   commandType: CommandType.StoredProcedure)).ToList();
             }
@@ -352,13 +362,13 @@ namespace DataAccessLayer
 
         #region EmployeeRepository
 
-        public async Task<dynamic> GetEmployee(string? serachText = null, int? stafTypeId = null, int PageSize = 20, int? PageNumber = 1)
+        public async Task<dynamic> GetEmployee(string? searchText = null, int? stafTypeId = null, int PageSize = 20, int? PageNumber = 1)
         {
             try
             {
                 var param = new
                 {
-                    searchText = serachText,
+                    searchText = searchText,
                     stafTypeId = stafTypeId,
                     PageSize = PageSize,
                     PageNumber = PageNumber
@@ -723,13 +733,13 @@ namespace DataAccessLayer
 
         }
 
-        public async Task<dynamic> GetAllVolunteers(string? serachText = null,int PageSize = 20, int? PageNumber = 1)
+        public async Task<dynamic> GetAllVolunteers(string? searchText = null,int PageSize = 20, int? PageNumber = 1)
         {
             try
             {
                 var param = new
                 {
-                    searchText = serachText,
+                    searchText = searchText,
                     PageSize = PageSize,
                     PageNumber = PageNumber
                 };
@@ -877,6 +887,7 @@ namespace DataAccessLayer
             }
 
         }
+
         public async Task<dynamic> GetProject()
         {
             try
@@ -917,14 +928,15 @@ namespace DataAccessLayer
                 return (null);
             }
         }
-        public async Task<dynamic> GetDebitTransactions(int? Id)
+        public async Task<dynamic> GetDebitTransactions(int? Id, int? PageNumber, int? PageSize)
         {
             try
             {
                 using var con = _context.CreateConnection();
                 var parameters = new
                 {
-                    Id = Id
+                    Id = Id,
+                    PageNumber = PageNumber,PageSize = PageSize
                 };
                 return (await con.QueryAsync("GetDebitTransactions",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
@@ -934,14 +946,16 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetInventoryUtilization(int? Id)
+        public async Task<dynamic> GetInventoryUtilization(int? Id,int? PageNumber,int? PageSize)
         {
             try
             {
                 using var con = _context.CreateConnection();
                 var parameters = new
                 {
-                    Id = Id
+                    Id = Id,
+                    PageNumber = PageNumber,
+                    PageSize = PageSize
                 };
                 return (await con.QueryAsync("GetInventoryUtilization",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
@@ -994,6 +1008,22 @@ namespace DataAccessLayer
                 return (null);
             }
 
+        }
+
+        public async Task<dynamic> GetCountry()
+        {
+            try
+            { 
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var res = (await con.QueryAsync<dynamic>("GetCountry",  commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
     }

@@ -611,7 +611,7 @@ namespace ConvergeAPI.Controllers
         #endregion
 
 
- [HttpGet("get-beneficiary-type")]
+        [HttpGet("get-beneficiary-type")]
         public async Task<IActionResult> GetBeneficiaryType()
         {
             try
@@ -799,6 +799,52 @@ namespace ConvergeAPI.Controllers
 
             }
         }
+        [HttpGet("get-all-cnic")]
+        public async Task<IActionResult> GetAllCNIC(string? cnic)
+        {
+            try
+            {
+                var result = await _formService.GetAllCNIC(cnic);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
+
+
+        [HttpGet("get-all-transactions")]
+        public async Task<IActionResult> GetAllTransactions(int? bankId = null, int? transactionTypeId = null, int PageSize = 20, int? PageNumber = 0)
+        {
+            try
+            {
+                var result = await _formService.GetAllTransactions(bankId, transactionTypeId, PageSize, PageNumber);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+        [HttpGet("get-all-bank-deposit")]
+        public async Task<IActionResult> GetAllBankDeposit(int? donorId = null, int PageSize = 20, int? PageNumber = 0)
+        {
+            try
+            {
+                var result = await _formService.GetAllBankDeposit(donorId, PageSize, PageNumber);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+            }
+        }
+
+
+
     }
 }
 

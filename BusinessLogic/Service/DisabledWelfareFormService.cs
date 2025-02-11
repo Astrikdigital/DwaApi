@@ -820,6 +820,47 @@ namespace BusinessLogicLayer.Service
 
         }
 
+        public async Task<dynamic> GetAllCNIC(string? cnic)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetAllCNIC(cnic);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetAllTransactions(int? bankId = null, int? transactionTypeId = null, int PageSize = 20, int? PageNumber = 0)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetAllTransactions(bankId, transactionTypeId, PageSize, PageNumber);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetAllBankDeposit(int? donorId = null, int PageSize = 20, int? PageNumber = 0)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.GetAllBankDeposit(donorId, PageSize, PageNumber);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
     }
 }

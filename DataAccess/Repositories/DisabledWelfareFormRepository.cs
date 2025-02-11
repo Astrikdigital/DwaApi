@@ -34,7 +34,6 @@ namespace DataAccessLayer
                         Date = disabledWelfareForm.Date,
                         CNIC = disabledWelfareForm.CNIC,
                         GenderId = disabledWelfareForm.GenderId,
-                        Name = disabledWelfareForm.Name,
                         FatherName = disabledWelfareForm.FatherName,
                         DOB = disabledWelfareForm.DOB,
                         Age = disabledWelfareForm.Age,
@@ -55,6 +54,8 @@ namespace DataAccessLayer
                         BusinessName = disabledWelfareForm.BusinessName,
                         BusinessType = disabledWelfareForm.BusinessType,
                         BeneficiaryTypeId = disabledWelfareForm.BeneficiaryTypeId,
+                        CountryId = disabledWelfareForm.CountryId,
+                        CityId = disabledWelfareForm.CityId,
                     };
                     using (IDbConnection con = _context.CreateConnection())
                     {
@@ -331,7 +332,10 @@ namespace DataAccessLayer
                 var CauseOfDisability = (await multi.ReadAsync<dynamic>()).ToList();
                 var Qualification = (await multi.ReadAsync<dynamic>()).ToList();
                 var Religion = (await multi.ReadAsync<dynamic>()).ToList();
-                return new { Project, Disability, CauseOfDisability, Qualification, Religion };
+                var TransactionType = (await multi.ReadAsync<dynamic>()).ToList();
+                var Banks = (await multi.ReadAsync<dynamic>()).ToList();
+                var Donors = (await multi.ReadAsync<dynamic>()).ToList();
+                return new { Project, Disability, CauseOfDisability, Qualification, Religion, TransactionType, Banks, Donors };
             }
             catch (Exception ex)
             {
@@ -1016,7 +1020,73 @@ namespace DataAccessLayer
             { 
                 using (IDbConnection con = _context.CreateConnection())
                 {
-                    var res = (await con.QueryAsync<dynamic>("GetCountry",  commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                    var res = (await con.QueryAsync<dynamic>("GetCountry",  commandType: CommandType.StoredProcedure)).ToList();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetAllCNIC(string? cnic)
+        {
+            try
+            {
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var parameters = new
+                    {
+                        CNIC = cnic
+                    };
+                    var res = (await con.QueryAsync<int>("Get_ALL_CNIC",param:parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<dynamic> GetAllTransactions(int? bankId = null, int? transactionTypeId = null, int PageSize = 20, int? PageNumber = 0)
+        {
+            try
+            {
+                var param = new
+                {
+                    bankId = bankId,
+                    transactionTypeId = transactionTypeId,
+                    PageSize = PageSize,
+                    PageNumber = PageNumber
+                };
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var res = (await con.QueryAsync<dynamic>("GetTransactions", param: param, commandType: CommandType.StoredProcedure)).ToList();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetAllBankDeposit(int? donorId = null, int PageSize = 20, int? PageNumber = 0)
+        {
+            try
+            {
+                var param = new
+                {
+                    donorId = donorId,
+                    PageSize = PageSize,
+                    PageNumber = PageNumber
+                };
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var res = (await con.QueryAsync<dynamic>("GetBankDepositSlip", param: param, commandType: CommandType.StoredProcedure)).ToList();
                     return res;
                 }
             }

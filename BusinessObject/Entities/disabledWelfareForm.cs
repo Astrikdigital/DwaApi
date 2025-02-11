@@ -16,7 +16,6 @@ namespace BusinessObjectsLayer.Entities
         public string? CodeNo { get; set; }
         public string? CNIC { get; set; }
         public int? GenderId { get; set; }
-        public string? Name { get; set; }
         public string? FatherName { get; set; }
         public DateTime? DOB { get; set; }
         public int? Age { get; set; }
@@ -41,6 +40,8 @@ namespace BusinessObjectsLayer.Entities
         public string? LastName { get; set; }
         public string? BusinessName { get; set; }
         public string? BusinessType{ get; set; }
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
 
         public int? BeneficiaryTypeId { get; set; }
 

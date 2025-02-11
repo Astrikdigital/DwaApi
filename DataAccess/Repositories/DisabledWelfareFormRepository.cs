@@ -3,10 +3,12 @@ using Dapper;
 using DataAccess.DbContext;
 using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Office.CustomUI;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Transactions;
@@ -258,7 +260,7 @@ namespace DataAccessLayer
             }
 
         }
-        public async Task<dynamic> GetDonor(int? Id,string SearchText, int? PageNumber, int? PageSize)
+        public async Task<dynamic> GetDonor(int? Id,string SearchText, int? PageNumber, int? PageSize,bool? IsView)
         {
             try
             {
@@ -266,9 +268,17 @@ namespace DataAccessLayer
                 var parameters = new
                 {
                     Id=Id,
-                    SearchText = SearchText,PageNumber = PageNumber,PageSize=PageSize
+                    SearchText = SearchText,PageNumber = PageNumber,PageSize=PageSize,IsView
                 };
-                return (await con.QueryAsync("GetDonor",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+                using var multi =  await con.QueryMultipleAsync("GetDonor",param: parameters, commandType: CommandType.StoredProcedure);
+                var donors = (await multi.ReadAsync<dynamic>()).ToList();
+                var donations = new List<dynamic>();
+                if (Id != null)
+                {
+                  if(IsView == true)  donations = (await multi.ReadAsync<dynamic>()).ToList();
+                    return new { Donor = donors, Donations = donations };
+                }
+                else return donors;
             }
             catch (Exception ex)
             {
@@ -883,7 +893,8 @@ namespace DataAccessLayer
                 var chartdonation = (await multi.ReadAsync<dynamic>()).ToList(); 
                 var chartexpense = (await multi.ReadAsync<dynamic>()).ToList(); 
                 var summary = (await multi.ReadAsync<dynamic>()).ToList(); 
-                return new { head, chartdonation, chartexpense, summary};
+                var summarydetail = (await multi.ReadAsync<dynamic>()).ToList();
+                return new { head, chartdonation, chartexpense, summary, summarydetail };
             }
             catch (Exception ex)
             {
@@ -1095,7 +1106,47 @@ namespace DataAccessLayer
                 return null;
             }
         }
+        public async Task<dynamic> InsertUpdateBankDeposit(BankDeposit bankDeposit)
+        {
+            try
+            { 
+                var param = new
+                {
+                    BankId = bankDeposit.BankId,
+                    TransactionId = bankDeposit.TransactionId,
+                    Slip = bankDeposit.Slip
+                };
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    return (await con.QueryAsync<dynamic>("InsertUpdateBankDeposit", param: param, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                } 
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
 
+        }
+        public async Task<dynamic> GetDepositBankSlip(int? PageNumber,int? PageSize)
+        {
+            try
+            {
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var parameters = new
+                    {
+                        PageNumber = PageNumber,
+                        PageSize = PageSize
+                    };
+                    var res = (await con.QueryAsync<dynamic>("GetDepositBankSlip",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 
 

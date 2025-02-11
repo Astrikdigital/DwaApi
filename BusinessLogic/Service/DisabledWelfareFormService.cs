@@ -7,6 +7,8 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using OfficeOpenXml;
 using System.Reflection;
 
@@ -177,12 +179,12 @@ namespace BusinessLogicLayer.Service
             }
 
         }
-        public async Task<dynamic> GetDonor(int? Id, string SearchText, int? PageNumber, int? PageSize)
+        public async Task<dynamic> GetDonor(int? Id, string SearchText, int? PageNumber, int? PageSize, bool? IsView)
         {
             try
             {
 
-                var res = await _disabledWelfareFormRepository.GetDonor(Id, SearchText, PageNumber,PageSize);
+                var res = await _disabledWelfareFormRepository.GetDonor(Id, SearchText, PageNumber,PageSize, IsView);
                 return res;
             }
             catch (Exception ex)
@@ -819,6 +821,13 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+        
+        public async Task<dynamic> InsertUpdateBankDeposit(BankDeposit bankDeposit)
+        {
+            try
+            {
+                string ProfilePictureName = null;
+                string ProfilePictureUrl = null;
 
         public async Task<dynamic> GetAllCNIC(string? cnic)
         {
@@ -862,5 +871,39 @@ namespace BusinessLogicLayer.Service
         }
 
 
+        public async Task<dynamic> InsertUpdateBankDeposit(BankDeposit bankDeposit)
+        {
+            try
+            {
+                string ProfilePictureName = null;
+                string ProfilePictureUrl = null;
+
+                if (bankDeposit.DocSlip != null && bankDeposit.DocSlip.Length > 0)
+                {
+                    (ProfilePictureName, ProfilePictureUrl) = await Helper.AttachFileAsync(bankDeposit.DocSlip, _environment, 1);
+                    bankDeposit.Slip = ProfilePictureUrl;
+                }
+                var res = await _disabledWelfareFormRepository.InsertUpdateBankDeposit(bankDeposit);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> GetDepositBankSlip(int? PageNumber,int? PageSize)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetDepositBankSlip(PageNumber, PageSize);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
     }
 }

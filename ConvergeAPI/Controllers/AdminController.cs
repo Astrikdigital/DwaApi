@@ -153,11 +153,11 @@ namespace ConvergeAPI.Controllers
 
         } 
         [HttpGet("GetDonor")]
-        public async Task<IActionResult> GetDonor(int? Id, string? SearchText,int? PageNumber,int? PageSize)
+        public async Task<IActionResult> GetDonor(int? Id, string? SearchText,int? PageNumber,int? PageSize,bool? IsView)
         {
             try
             {
-                var result = await _formService.GetDonor(Id,SearchText, PageNumber, PageSize);
+                var result = await _formService.GetDonor(Id,SearchText, PageNumber, PageSize,IsView);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)
@@ -843,7 +843,34 @@ namespace ConvergeAPI.Controllers
             }
         }
 
+ [HttpPost("InsertUpdateBankDeposit")]
+        public async Task<IActionResult> InsertUpdateBankDeposit([FromForm] BankDeposit bankDeposit)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateBankDeposit(bankDeposit);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
 
+            }
+        }
+        [HttpGet("GetDepositBankSlip")]
+        public async Task<IActionResult> GetDepositBankSlip(int? PageNumber,int? PageSize)
+        {
+            try
+            {
+                var result = await _formService.GetDepositBankSlip(PageNumber,PageSize);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
 
     }
 }

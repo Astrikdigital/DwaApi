@@ -822,13 +822,7 @@ namespace BusinessLogicLayer.Service
 
         }
         
-        public async Task<dynamic> InsertUpdateBankDeposit(BankDeposit bankDeposit)
-        {
-            try
-            {
-                string ProfilePictureName = null;
-                string ProfilePictureUrl = null;
-
+  
         public async Task<dynamic> GetAllCNIC(string? cnic)
         {
             try

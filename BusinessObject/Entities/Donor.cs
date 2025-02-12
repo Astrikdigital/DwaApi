@@ -23,6 +23,8 @@ namespace BusinessObjectsLayer.Entities
     public class Donation
     {
         public int? Id { get; set; }
+        public string? PurposeOfDonation { get; set; }
+        
         public int? DonationTypeId { get; set; }
         public int? DonationDetailTypeId { get; set; }
         public string? TransactionId { get; set; }

@@ -751,6 +751,35 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+        public async Task<dynamic> GetBanksById(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetBanksById(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetProjectById(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetProjectById(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
         public async Task<dynamic> GetProject()
         {
             try
@@ -891,6 +920,152 @@ namespace BusinessLogicLayer.Service
             {
 
                 var res = await _disabledWelfareFormRepository.GetDepositBankSlip(PageNumber, PageSize);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateBank(Bank model)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.InsertUpdateBank(model);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateProject(Projects model)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.InsertUpdateProject(model);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateMainhead(HeadsModel model)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.InsertUpdateMainhead(model);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateHead(HeadsModel model)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.InsertUpdateHead(model);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateSubHead(HeadsModel model)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.InsertUpdateSubHead(model);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetHeadById(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetHeadById(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetMainHeadById(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetMainHeadById(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetSubHeadById(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetSubHeadById(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetSubHead()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetSubHead();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetHead()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetHead();
                 return res;
             }
             catch (Exception ex)

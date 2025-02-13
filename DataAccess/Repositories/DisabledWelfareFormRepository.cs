@@ -931,7 +931,42 @@ namespace DataAccessLayer
             }
 
         }
-       public async Task<dynamic> GetBenificiaryType()
+
+        public async Task<dynamic> GetBanksById(int? Id)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id,
+                };
+                return (await con.QueryAsync("GetBanks",param:parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetProjectById(int? Id)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id,
+                };
+                return (await con.QueryAsync("GetProjectById", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetBenificiaryType()
         {
             try
             {
@@ -1147,7 +1182,195 @@ namespace DataAccessLayer
                 return null;
             }
         }
+
+        public async Task<dynamic> InsertUpdateBank(Bank model)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = model.Id,
+                    userId = model.UserId,
+                    Title = model.Title,
+                    IBAN = model.IBAN,
+                    Account = model.Account,
+                    BranchName = model.BranchName,
+                    BranchCode = model.BranchCode,
+                    Amount = model.Amount
+
+                };
+                return (await con.QueryAsync("Insert_Update_Bank", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateProject(Projects model)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = model.Id,
+                    Title = model.Title
+                };
+                return (await con.QueryAsync("Insert_Update_Project", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateMainhead(HeadsModel model)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = model.Id,
+                    userId = model.UserId,
+                    Title = model.Title
+                };
+                return (await con.QueryAsync("Insert_Update_MainHead", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateHead(HeadsModel model)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = model.Id,
+                    userId = model.UserId,
+                    Title = model.Title,
+                    MainHeadId = model.MainHeadId
+                };
+                return (await con.QueryAsync("Insert_Update_Head", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> InsertUpdateSubHead(HeadsModel model)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = model.Id,
+                    userId = model.UserId,
+                    Title = model.Title,
+                    HeadId = model.HeadId
+                };
+                return (await con.QueryAsync("Insert_Update_SubHead", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+
+        public async Task<dynamic> GetHeadById(int? Id)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id,
+                };
+                return (await con.QueryAsync("GetHeadById", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetMainHeadById(int? Id)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id,
+                };
+                return (await con.QueryAsync("GetMainHeadById", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> GetSubHeadById(int? Id)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = Id,
+                };
+                return (await con.QueryAsync("GetSubHeadById", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetSubHead()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+               
+                return (await con.QueryAsync("GetSubHead", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetHead()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+
+                return (await con.QueryAsync("GetHead", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
     }
-
-
 }

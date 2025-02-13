@@ -843,7 +843,7 @@ namespace ConvergeAPI.Controllers
             }
         }
 
- [HttpPost("InsertUpdateBankDeposit")]
+        [HttpPost("InsertUpdateBankDeposit")]
         public async Task<IActionResult> InsertUpdateBankDeposit([FromForm] BankDeposit bankDeposit)
         {
             try
@@ -870,6 +870,195 @@ namespace ConvergeAPI.Controllers
                 return Ok(ResponseHelper.GetFailureResponse());
 
             }
+        }
+
+        [HttpPost("InsertUpdateBank")]
+        public async Task<IActionResult> InsertUpdateBank(Bank model)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateBank(model);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpPost("Insert-Update-Project")]
+        public async Task<IActionResult> InsertUpdateProject(Projects model)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateProject(model);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpPost("Insert-Update-Head")]
+        public async Task<IActionResult> InsertUpdateHead(HeadsModel model)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateHead(model);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpPost("Insert-Update-SubHead")]
+        public async Task<IActionResult> InsertUpdateSubHead(HeadsModel model)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateSubHead(model);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpPost("Insert-Update-MainHead")]
+        public async Task<IActionResult> InsertUpdateMainHead(HeadsModel model)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateMainhead(model);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpGet("GetBanksById")]
+        public async Task<IActionResult> GetBanksById(int? Id)
+        {
+            try
+            {
+                var result = await _formService.GetBanksById(Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("GetProjectById")]
+        public async Task<IActionResult> GetProjectById(int? Id)
+        {
+            try
+            {
+                var result = await _formService.GetProjectById(Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("GetHeadById")]
+        public async Task<IActionResult> GetHeadById(int? Id)
+        {
+            try
+            {
+                var result = await _formService.GetHeadById(Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpGet("GetMainHeadById")]
+        public async Task<IActionResult> GetMainHeadById(int? Id)
+        {
+            try
+            {
+                var result = await _formService.GetMainHeadById(Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpGet("GetSubHeadById")]
+        public async Task<IActionResult> GetSubHeadById(int? Id)
+        {
+            try
+            {
+                var result = await _formService.GetSubHeadById(Id);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpGet("GetSubHead")]
+        public async Task<IActionResult> GetSubHead()
+        {
+            try
+            {
+                var result = await _formService.GetSubHead();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+        [HttpGet("GetHead")]
+        public async Task<IActionResult> GetHead()
+        {
+            try
+            {
+                var result = await _formService.GetHead();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
         }
 
     }

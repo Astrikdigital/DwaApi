@@ -1,4 +1,5 @@
 ﻿using BusinessObjectsLayer.Entities;
+using Converge.Shared.Helper;
 using Dapper;
 using DataAccess.DbContext;
 using DocumentFormat.OpenXml.Bibliography;
@@ -8,10 +9,12 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Transactions;
+using static Converge.Shared.Helper.EnumHelper;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace DataAccessLayer
@@ -19,45 +22,49 @@ namespace DataAccessLayer
     public class DisabledWelfareFormRepository
     {
         private readonly DapperContext _context;
-        public DisabledWelfareFormRepository(DapperContext context)
+        private readonly HttpContextAccessor _httpContextAccessor;
+        public DisabledWelfareFormRepository(DapperContext context, HttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
+
         }
         public async Task<dynamic> InsertUpdateBeneficiary(DisabledWelFareForm disabledWelfareForm)
         {
             try
             {
-               
-                    var param = new
-                    {
-                        Id = disabledWelfareForm.Id,
-                        ProjectId = disabledWelfareForm.ProjectId,
-                        Image = disabledWelfareForm.Image,
-                        Date = disabledWelfareForm.Date,
-                        CNIC = disabledWelfareForm.CNIC,
-                        GenderId = disabledWelfareForm.GenderId,
-                        FatherName = disabledWelfareForm.FatherName,
-                        DOB = disabledWelfareForm.DOB,
-                        Age = disabledWelfareForm.Age,
-                        ReligionId = disabledWelfareForm.ReligionId,
-                        QualificationId = disabledWelfareForm.QualificationId,
-                        Experience = disabledWelfareForm.Experience,
-                        Address = disabledWelfareForm.Address,
-                        PhoneNo = disabledWelfareForm.PhoneNo,
-                        MobileNo = disabledWelfareForm.MobileNo,
-                        WhatsAppNo = disabledWelfareForm.WhatsAppNo,
-                        Email = disabledWelfareForm.Email,
-                        DisabilityId = disabledWelfareForm.DisabilityId,
-                        CauseDisabilityId = disabledWelfareForm.CauseDisabilityId,
-                        Reference = disabledWelfareForm.Reference,
-                        NeedsRemarks = disabledWelfareForm.NeedsRemarks,
-                        FirstName = disabledWelfareForm.FirstName,
-                        LastName = disabledWelfareForm.LastName,
-                        BusinessName = disabledWelfareForm.BusinessName,
-                        BusinessType = disabledWelfareForm.BusinessType,
-                        BeneficiaryTypeId = disabledWelfareForm.BeneficiaryTypeId,
-                        CountryId = disabledWelfareForm.CountryId,
-                        CityId = disabledWelfareForm.CityId,
+
+                var param = new
+                {
+                    Id = disabledWelfareForm.Id,
+                    ProjectId = disabledWelfareForm.ProjectId,
+                    Image = disabledWelfareForm.Image,
+                    Date = disabledWelfareForm.Date,
+                    CNIC = disabledWelfareForm.CNIC,
+                    GenderId = disabledWelfareForm.GenderId,
+                    FatherName = disabledWelfareForm.FatherName,
+                    DOB = disabledWelfareForm.DOB,
+                    Age = disabledWelfareForm.Age,
+                    ReligionId = disabledWelfareForm.ReligionId,
+                    QualificationId = disabledWelfareForm.QualificationId,
+                    Experience = disabledWelfareForm.Experience,
+                    Address = disabledWelfareForm.Address,
+                    PhoneNo = disabledWelfareForm.PhoneNo,
+                    MobileNo = disabledWelfareForm.MobileNo,
+                    WhatsAppNo = disabledWelfareForm.WhatsAppNo,
+                    Email = disabledWelfareForm.Email,
+                    DisabilityId = disabledWelfareForm.DisabilityId,
+                    CauseDisabilityId = disabledWelfareForm.CauseDisabilityId,
+                    Reference = disabledWelfareForm.Reference,
+                    NeedsRemarks = disabledWelfareForm.NeedsRemarks,
+                    FirstName = disabledWelfareForm.FirstName,
+                    LastName = disabledWelfareForm.LastName,
+                    BusinessName = disabledWelfareForm.BusinessName,
+                    BusinessType = disabledWelfareForm.BusinessType,
+                    BeneficiaryTypeId = disabledWelfareForm.BeneficiaryTypeId,
+                    CountryId = disabledWelfareForm.CountryId,
+                    CityId = disabledWelfareForm.CityId,
+                    UserId = Helper.UserId(_httpContextAccessor)
                     };
                     using (IDbConnection con = _context.CreateConnection())
                     {
@@ -148,7 +155,9 @@ namespace DataAccessLayer
                     InventoryId = donation.InventoryId,
                     BankId = donation.BankId,
                     IncomeTypeId = donation.IncomeTypeId,
-                    Quantity = donation.Quantity
+                    PurposeOfDonation = donation.PurposeOfDonation,
+                    Quantity = donation.Quantity,
+                    UserId = Helper.UserId(_httpContextAccessor)
                 };
                 var Id = (await con.QueryAsync("InsertUpdateDonation", param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
 
@@ -175,7 +184,8 @@ namespace DataAccessLayer
                     CountryId = donor.CountryId,
                     CityId = donor.CityId,
                     DonorTypeId = donor.DonorTypeId,
-                    PictureUrl = donor.PictureUrl
+                    PictureUrl = donor.PictureUrl,
+                    UserId = Helper.UserId(_httpContextAccessor)
                 };
                 var Id =  (await con.QueryAsync<int>("InsertUpdateDonor",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
                 if (donor.Id==null) { 
@@ -212,7 +222,8 @@ namespace DataAccessLayer
                 var parameters = new
                 {
                     Id = Id,
-                    DonationStatusId = DonationStatusId
+                    DonationStatusId = DonationStatusId,
+                    UserId = Helper.UserId(_httpContextAccessor)
                 };
                 return (await con.QueryAsync("UpdateDonationStatus",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
@@ -321,7 +332,8 @@ namespace DataAccessLayer
                     ConditionId = inventory.ConditionId,
                     StatusId =inventory.StatusId,   
                     Description = inventory.Description,
-                    Image = inventory.Image
+                    Image = inventory.Image,
+                    UserId = Helper.UserId(_httpContextAccessor)
                 };
                 return (await con.QueryAsync("InsertupdateInventory", param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();  
             }
@@ -458,6 +470,7 @@ namespace DataAccessLayer
                         ResidentialAddress = employeeForm.ResidentialAddress,
                         Attachment = employeeForm.Attachment,
                         ProfilePicture = employeeForm.ProfilePicture,
+                        UserId = Helper.UserId(_httpContextAccessor)
 
                     };
                     using (IDbConnection con = _context.CreateConnection())
@@ -730,7 +743,8 @@ namespace DataAccessLayer
                         PermanentAddress = volunteerForm.PermanentAddress,
                         ResidentialAddress = volunteerForm.ResidentialAddress,
                         Attachment = volunteerForm.Attachment,
-                        ProfilePicture = volunteerForm.ProfilePicture
+                        ProfilePicture = volunteerForm.ProfilePicture,
+                        UserId = Helper.UserId(_httpContextAccessor)
 
                     };
                     using (IDbConnection con = _context.CreateConnection())
@@ -844,7 +858,8 @@ namespace DataAccessLayer
                     MainHeadId = transaction.MainHeadId,
                     HeadId = transaction.HeadId,
                     Date = transaction.Date,
-                    SubHeadId = transaction.SubHeadId
+                    SubHeadId = transaction.SubHeadId,
+                    UserId = Helper.UserId(_httpContextAccessor)
                 };
                 return (await con.QueryAsync("InsertUpdateTransaction",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
@@ -865,7 +880,8 @@ namespace DataAccessLayer
                     BeneficiaryId = utili.BeneficiaryId,
                     Quantity =  utili.Quantity  ,
                     ProjectId = utili.ProjectId,
-                    InventoryId = utili.InventoryId
+                    InventoryId = utili.InventoryId,
+                    UserId = Helper.UserId(_httpContextAccessor)
                 };
                 return (await con.QueryAsync("InsertUpdateInventoryUtilization", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
@@ -1149,7 +1165,8 @@ namespace DataAccessLayer
                 {
                     BankId = bankDeposit.BankId,
                     TransactionId = bankDeposit.TransactionId,
-                    Slip = bankDeposit.Slip
+                    Slip = bankDeposit.Slip,
+                    UserId = Helper.UserId(_httpContextAccessor)
                 };
                 using (IDbConnection con = _context.CreateConnection())
                 {
@@ -1173,7 +1190,26 @@ namespace DataAccessLayer
                         PageNumber = PageNumber,
                         PageSize = PageSize
                     };
-                    var res = (await con.QueryAsync<dynamic>("GetDepositBankSlip",param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+                    var res = (await con.QueryAsync<dynamic>("GetDepositBankSlip",param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<dynamic> DeleteDepositBankSlip(int? Id)
+        {
+            try
+            {
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var parameters = new
+                    {
+                        Id = Id
+                    };
+                    var res = (await con.QueryAsync<dynamic>("DeleteDepositBankSlip", param: parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();
                     return res;
                 }
             }

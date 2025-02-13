@@ -6,6 +6,7 @@ using BusinessObjectsLayer.Entities;
 using Converge.Shared.Helper;
 using DocumentFormat.OpenXml.Wordprocessing;
 using ErrorLog;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 namespace ConvergeAPI.Controllers
@@ -13,6 +14,7 @@ namespace ConvergeAPI.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AdminController : ControllerBase
     {
         #region Depedenices
@@ -863,6 +865,20 @@ namespace ConvergeAPI.Controllers
             try
             {
                 var result = await _formService.GetDepositBankSlip(PageNumber,PageSize);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+        }
+        [HttpGet("DeleteDepositBankSlip")]
+        public async Task<IActionResult> DeleteDepositBankSlip(int? Id)
+        {
+            try
+            {
+                var result = await _formService.DeleteDepositBankSlip(Id);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)

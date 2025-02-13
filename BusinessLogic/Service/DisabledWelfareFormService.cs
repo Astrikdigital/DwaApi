@@ -1074,5 +1074,19 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+        public async Task<dynamic> DeleteDepositBankSlip(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.DeleteDepositBankSlip(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
     }
 }

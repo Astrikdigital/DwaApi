@@ -1408,5 +1408,83 @@ namespace DataAccessLayer
             }
 
         }
+
+        public async Task<dynamic> GetReportMainHead()
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+
+                return (await con.QueryAsync("Get_Report_MainHead", commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetReportHeadByMainHeadId(int? MainHeadId)
+        {
+            try
+            {
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var parameters = new
+                    {
+                        MainHeadId = MainHeadId
+                    };
+                    var res = (await con.QueryAsync<dynamic>("Get_Report_HeadByMainHeadId", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<dynamic> GetReportSubHead(int? HeadId, int? MainHeadId)
+        {
+            try
+            {
+                using (IDbConnection con = _context.CreateConnection())
+                {
+                    var parameters = new
+                    {
+                        HeadId = HeadId,
+                        MainHeadId = MainHeadId
+                    };
+                    var res = (await con.QueryAsync<dynamic>("Get_Report_SubHead", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<dynamic> InsertUpdateDesignation(Designation model)
+        {
+            try
+            {
+                using var con = _context.CreateConnection();
+                var parameters = new
+                {
+                    Id = model.Id,
+                    Title = model.Title,
+                    userId = model.UserId
+
+                };
+                return (await con.QueryAsync("Insert_Update_Designation", param: parameters, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
     }
 }

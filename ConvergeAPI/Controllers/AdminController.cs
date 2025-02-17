@@ -14,7 +14,7 @@ namespace ConvergeAPI.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AdminController : ControllerBase
     {
         #region Depedenices
@@ -1067,6 +1067,71 @@ namespace ConvergeAPI.Controllers
             try
             {
                 var result = await _formService.GetHead();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpGet("GetReportMainHead")]
+        public async Task<IActionResult> GetReportMainHead()
+        {
+            try
+            {
+                var result = await _formService.GetReportMainHead();
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpGet("GetReportHeadByMainHeadId")]
+        public async Task<IActionResult> GetReportHeadByMainHeadId(int? MainHeadId)
+        {
+            try
+            {
+                var result = await _formService.GetReportHeadByMainHeadId(MainHeadId);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+
+        [HttpGet("GetReportSubHead")]
+        public async Task<IActionResult> GetReportSubHead(int? HeadId, int? MainHeadId)
+        {
+            try
+            {
+                var result = await _formService.GetReportSubHead(HeadId, MainHeadId);
+                return Ok(ResponseHelper.GetSuccessResponse(result));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ResponseHelper.GetFailureResponse());
+
+            }
+
+        }
+
+        [HttpPost("InsertUpdateDesignation")]
+        public async Task<IActionResult> InsertUpdateDesignation(Designation model)
+        {
+            try
+            {
+                var result = await _formService.InsertUpdateDesignation(model);
                 return Ok(ResponseHelper.GetSuccessResponse(result));
             }
             catch (Exception ex)

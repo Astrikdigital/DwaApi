@@ -1088,5 +1088,63 @@ namespace BusinessLogicLayer.Service
             }
 
         }
+
+        public async Task<dynamic> GetReportMainHead()
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetReportMainHead();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetReportHeadByMainHeadId(int? Id)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetReportHeadByMainHeadId(Id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+
+        public async Task<dynamic> GetReportSubHead(int? HeadId, int? MainHeadId)
+        {
+            try
+            {
+
+                var res = await _disabledWelfareFormRepository.GetReportSubHead(HeadId, MainHeadId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
+        public async Task<dynamic> InsertUpdateDesignation(Designation model)
+        {
+            try
+            {
+                var res = await _disabledWelfareFormRepository.InsertUpdateDesignation(model);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return (null);
+            }
+
+        }
     }
 }
